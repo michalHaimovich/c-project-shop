@@ -14,7 +14,7 @@ public class DaLlist : IDal
     public ICustomer Customer => new CustomerImplementation(); 
 
     
-    ///fhgvgvhg
+
 
 
 

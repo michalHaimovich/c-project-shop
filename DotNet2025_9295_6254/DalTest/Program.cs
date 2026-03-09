@@ -13,11 +13,11 @@ namespace DalTest;
 internal class Program
 {
 
-    private static IDal s_dal = new DaLlist();
+    private static IDal s_dal =Factory.Get; 
 
     static void Main(string[] args)
     {
-        Initializatation.initialize(s_dal);
+        Initializatation.initialize();
         try
         {
             while (true)

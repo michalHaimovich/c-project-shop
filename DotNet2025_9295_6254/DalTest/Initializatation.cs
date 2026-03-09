@@ -50,13 +50,13 @@ namespace DalTest
             Customer.Create(new Customer(2468, "Amit", "Kfar Saba", "0598765432"));
             Customer.Create(new Customer(3690, "Liraz", "Ashdod", "0567890123"));
         }
-        public static void initialize(IDal dal)
+        public static void initialize()
         {
-            s_dal = dal;
+            s_dal = Factory.Get;
 
-            createProduct(dal.Product);
-            createSales(dal.Sale);
-            createCustomers(dal.Customer);
+            createProduct(s_dal.Product);
+            createSales(s_dal.Sale);
+            createCustomers(s_dal.Customer);
 
         }
     }

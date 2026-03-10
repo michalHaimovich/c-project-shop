@@ -74,6 +74,7 @@ public class SaleImplementation : ISale
 
     List<Sale> ICrud<Sale>.ReadAll(Func<Sale, bool>? filter)
     {
+        Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read all with filter: "+ filter);
 
         List<Sale> list = new List<Sale>();
 
@@ -87,12 +88,13 @@ public class SaleImplementation : ISale
 
         }
 
-
+        Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "end read all call found " + list.Count() + " sales");
         return list;
     }
 
     Sale ICrud<Sale>.Read(Func<Sale, bool> filter)
     {
+        Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read with filter: " + filter);
         return sales.FirstOrDefault(s => filter(s));
 
     }

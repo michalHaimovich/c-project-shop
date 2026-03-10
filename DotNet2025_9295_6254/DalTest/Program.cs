@@ -32,6 +32,9 @@ internal class Program
 
                 switch (choice)
                 {
+                    case "0":
+                        Tools.LogManager.DeleteOldLogFolders();
+                        break;
                     case "1":
                         ShowCrudMenu(s_dal.Sale,"sale");
                         break;
@@ -59,6 +62,7 @@ internal class Program
         private static void DisplayMainMenu()
     {   Console.WriteLine("wellcome to our electronic store");
         Console.WriteLine("Main Menu:");
+        Console.WriteLine("0. Delet old logs");
         Console.WriteLine("1. Sale");
         Console.WriteLine("2. Product");
         Console.WriteLine("3. Customer");

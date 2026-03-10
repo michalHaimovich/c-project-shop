@@ -5,6 +5,7 @@ public class ExceptionsIdNotFound: Exception
 {
     public override string Message
     {
+        
         get { return "this id doesnt exist"; }
     }
 }

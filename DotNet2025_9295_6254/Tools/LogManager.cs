@@ -56,7 +56,7 @@ namespace Tools
                 if (int.TryParse(directory.Name, out int monthNumber))
                 {
                     // If directory is older than 2 months, delete it
-                    if (monthNumber < DateTime.Now.AddMonths(-2).Date.Month)
+                    if (monthNumber <= DateTime.Now.AddMonths(-2).Date.Month && monthNumber != DateTime.Now.AddMonths(-1).Date.Month && monthNumber != DateTime.Now.Date.Month)
                     {
                         directory.Delete(true);
                     }

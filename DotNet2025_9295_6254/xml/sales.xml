@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSale>
+	<sale>
+		<id></id>
+		<product_id></product_id>
+		<amount_to_sale></amount_to_sale>
+		<count_to_sale></count_to_sale>
+		<to_club></to_club>
+		<start_date></start_date>
+		<end_date></end_date>
+	</sale>
+</ArrayOfSale>

@@ -17,7 +17,10 @@ internal class Program
 
     static void Main(string[] args)
     {
-        Initializatation.initialize();
+        Console.WriteLine("to initializ type yes");
+        string input = Console.ReadLine();
+        if (input.ToLower() == "yes")
+            Initializatation.initialize();
         try
         {
             while (true)

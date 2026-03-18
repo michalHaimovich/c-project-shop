@@ -17,20 +17,19 @@ namespace Dal
 
         public static int GetProductId
         {
-            get {
+            get 
+            {
                 int currentProId = int.Parse(dataConfig.Element("ProductNum").Value); 
                 dataConfig.Element("ProductNum").SetValue((currentProId+1).ToString());
                 dataConfig.Save(fileName);
                 return currentProId;
-                }
-
-           
+            }
         }
 
 
         private static int saleId;
 
-        public static int GetSaleNum
+        public static int GetSaleId
         {
             get
             {

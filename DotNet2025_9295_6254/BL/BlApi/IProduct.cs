@@ -4,6 +4,7 @@ public interface IProduct
 {
     // DAL methods (example signatures)
     BO.Product? Get(int id);
+        BO.Product? Get(Func<BO.Product, bool> filter);
     IEnumerable<BO.Product> GetAll();
     void Add(BO.Product product);
     void Update(BO.Product product);

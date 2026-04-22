@@ -5,7 +5,7 @@ public interface IClient
 {
     // DAL methods (example signatures)
     Client? Get(int id);
-    Client? Read(Func<T, bool> filter);
+    Client? Read(Func<Client, bool> filter);
     IEnumerable<Client> GetAll();
     void Create(Client client);
     void Update(Client client);

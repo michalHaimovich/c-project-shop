@@ -10,4 +10,6 @@ public class ProductInOrder
     public int Quantity { get; init; }
     public List<SaleInProduct> Sales { get; init; } = [];
     public double FinalPrice { get; init; }
+    public override string ToString() => this.ToStringProperty();
+
 }

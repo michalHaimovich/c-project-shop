@@ -6,4 +6,6 @@ public class SaleInProduct
     public int Quantity { get; init; }
     public double Price { get; init; }
     public bool IsForAllClients { get; init; }
+    public override string ToString() => this.ToStringProperty();
+
 }

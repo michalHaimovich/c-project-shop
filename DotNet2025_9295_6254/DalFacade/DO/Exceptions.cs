@@ -1,19 +1,17 @@
-﻿
+﻿using System;
+
 namespace DO;
 
-public class ExceptionsIdNotFound: Exception
+[Serializable]
+public class DalDoesNotExistException : Exception
 {
-    public override string Message
-    {
-        
-        get { return "this id doesnt exist"; }
-    }
+    public DalDoesNotExistException(string? message) : base(message) { }
+    public DalDoesNotExistException(string message, Exception innerException) : base(message, innerException) { }
 }
 
-public class ExceptionIDAllredyExist : Exception
+[Serializable]
+public class DalAlreadyExistsException : Exception
 {
-    public override string Message
-    {
-        get { return "this id exist allready"; }
-    }
+    public DalAlreadyExistsException(string? message) : base(message) { }
+    public DalAlreadyExistsException(string message, Exception innerException) : base(message, innerException) { }
 }

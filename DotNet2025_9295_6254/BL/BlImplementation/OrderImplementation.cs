@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DalApi;
+using BlApi;
+using BO;
 
 namespace BlImplementation
 {
-    internal class OrderImplementation : BlApi.IOrder
+    internal class OrderImplementation : IOrder
     {
+        IDal _dal = DalApi.Factory.Get;  
         public void SearchSaleForProduct(BO.ProductInOrder productInOrder, bool isExistingCustomer)
         {
             // העברת תנאי הסינון ישירות לפונקציית ReadAll בשכבת הנתונים
-            var relevantSales = dal.Sale.ReadAll(sale =>
-                sale.ProductId == productInOrder.ProductId &&
-                sale.StartDate <= DateTime.Now && sale.EndDate >= DateTime.Now &&
-                productInOrder.Amount >= sale.MinAmountForSale &&
-                (isExistingCustomer || sale.IsForAllCustomers));
+            var relevantSales = _dal.Sale.ReadAll(sale =>
+                sale.product_id == productInOrder.ProductId &&
+                sale.start_date <= DateTime.Now && sale.end_date >= DateTime.Now &&
+                productInOrder.Quantity >= sale.amount_to_sale &&
+                (isExistingCustomer ||  !sale.to_club ));
 
             // מיון התוצאות והמרה ל-BO בעזרת פונקציית ההרחבה שכתבת
-            productInOrder.Sales = relevantSales
-                .OrderBy(sale => sale.PricePerUnit)
-                .Select(sale => sale.convert()) // שימוש במתודת ההרחבה שלך
-                .ToList();
+            productInOrder.Sales = relevantSales.OrderBy(sale => sale.amount_to_sale).Select(sale => sale.convert()).Select(s=> new SaleInProduct() { IsForAllClients = !s.to_club ,Price = s.count_to_sale, Quantity = s.amount , SaleId = s.Id }).ToList();
         }
 
         public void CalcTotalPriceForProduct(BO.ProductInOrder productInOrder)
@@ -69,7 +70,7 @@ namespace BlImplementation
             productInOrder.FinalPrice = totalPrice;
             productInOrder.Sales = appliedSales;
         }
-        void CalcTotalPrice(BO.Order order)
+       public void CalcTotalPrice(Order order)
         {
             order.FinalPrice = order.Products.Select(product => { CalcTotalPriceForProduct(product); return product.FinalPrice; }).Sum();
         }
@@ -77,7 +78,7 @@ namespace BlImplementation
 public List<BO.SaleInProduct> AddProductToOrder(BO.Order order, int productId, int quantityToAdd)
     {
         // 1. שולפים את המוצר מה-DAL (משתמשים ב-Id)
-        var doProduct = _dal.Product.Get(productId);
+        var doProduct = _dal.Product.Read(productId);
         if (doProduct == null)
         {
             throw new Exception($"Product with ID {productId} does not exist.");
@@ -100,9 +101,9 @@ public List<BO.SaleInProduct> AddProductToOrder(BO.Order order, int productId, i
             }
 
             // בודקים שיש מספיק במלאי (Stock)
-            if (doProduct.Stock < newQuantity)
+            if (doProduct.amount_in_stock < newQuantity)
             {
-                throw new Exception($"Not enough stock. Requested: {newQuantity}, Available: {doProduct.Stock}");
+                throw new Exception($"Not enough stock. Requested: {newQuantity}, Available: {doProduct.amount_in_stock}");
             }
 
             // מעדכנים את הכמות
@@ -116,17 +117,17 @@ public List<BO.SaleInProduct> AddProductToOrder(BO.Order order, int productId, i
                 throw new Exception("Cannot add a new product with zero or negative quantity.");
             }
 
-            if (doProduct.Stock < quantityToAdd)
+            if (doProduct.amount_in_stock < quantityToAdd)
             {
-                throw new Exception($"Not enough stock. Requested: {quantityToAdd}, Available: {doProduct.Stock}");
+                throw new Exception($"Not enough stock. Requested: {quantityToAdd}, Available: {doProduct.amount_in_stock}");
             }
 
             // יצירת מוצר חדש והוספתו להזמנה
             productInOrder = new BO.ProductInOrder
             {
-                ProductId = doProduct.Id,
-                Name = doProduct.Name,
-                BasePrice = doProduct.Price,
+                ProductId = doProduct.id,
+                Name = doProduct.product_name,
+                BasePrice = doProduct.price,
                 Quantity = quantityToAdd,
                 Sales = new List<BO.SaleInProduct>()
             };
@@ -154,7 +155,7 @@ public List<BO.SaleInProduct> AddProductToOrder(BO.Order order, int productId, i
             foreach (var productInOrder in order.Products)
             {
                 // 1. שליפת המוצר העדכני משכבת הנתונים (DAL) כדי לקבל את המלאי המדויק כרגע
-                var doProduct = _dal.Product.Get(productInOrder.ProductId);
+                var doProduct = _dal.Product.Read(productInOrder.ProductId);
 
                 if (doProduct == null)
                 {
@@ -162,20 +163,20 @@ public List<BO.SaleInProduct> AddProductToOrder(BO.Order order, int productId, i
                 }
 
                 // 2. הפחתת הכמות שהוזמנה מהמלאי הקיים
-                doProduct.Stock -= productInOrder.Quantity;
-
+                _dal.Product.Update(doProduct with { amount_in_stock = doProduct.amount_in_stock - productInOrder.Quantity });
                 // בדיקת בטיחות (אופציונלי אך מומלץ):
                 // לוודא שלא ירדנו למלאי שלילי במקרה ששני לקוחות קנו במקביל
-                if (doProduct.Stock < 0)
+                if (doProduct.amount_in_stock < 0)
                 {
-                    throw new Exception($"Cannot complete order. Not enough stock for product '{doProduct.Name}'.");
+                    throw new Exception($"Cannot complete order. Not enough stock for product '{doProduct.product_name}'.");
                 }
 
                 // 3. שליחת האובייקט המעודכן חזרה ל-DAL כדי לשמור את השינוי
                 // ההנחה כאן היא שיש פונקציית Update ב-DAL שמקבלת את האובייקט ומעדכנת אותו
-                dal.Product.Update(doProduct);
+                _dal.Product.Update(doProduct);
             }
 
         }
+
     }
 }

@@ -20,29 +20,29 @@ public class ProductImplementation : IProduct
     public Product Read(int id)
     {
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read by id with: " + id);
-        var q = from p in products
-                where p.id == id
-                select p;
+      var q = from p in products
+     where p.id == id
+      select p;
 
         if (q.FirstOrDefault() == null)
         {
             Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, " id accepted not exist");
-            throw new ExceptionsIdNotFound();
-        }
+        throw new DalDoesNotExistException($"Product with ID {id} does not exist.");
+   }
         else
         {
-            Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, " end read call found product");
-            return q.FirstOrDefault();
+  Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, " end read call found product");
+       return q.FirstOrDefault();
         }
     }
 
     public int Create(Product product)
     {
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, " called create with " + product);
-        int idRun = ProductConfig.Next;
-        product = product with { id = idRun };
+   int idRun = ProductConfig.Next;
+ product = product with { id = idRun };
         products.Add(product);
-        Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "created seccsesfully");
+      Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "created seccsesfully");
         return idRun;
     }
 
@@ -50,19 +50,19 @@ public class ProductImplementation : IProduct
     {
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called delete with id : " + id);
 
-        var q = from p in products
-                where p.id == id
-                select p;
+       var q = from p in products
+        where p.id == id
+         select p;
 
-        Product? p1 = q.FirstOrDefault();
-        if (p1 == null)
-        {
-            Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "exception no id was found to delete");
-            throw new ExceptionsIdNotFound();
-        }
+     Product? p1 = q.FirstOrDefault();
+      if (p1 == null)
+       {
+         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "exception no id was found to delete");
+ throw new DalDoesNotExistException($"Product with ID {id} does not exist and cannot be deleted.");
+      }
 
-        products.Remove(p1);
-        Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "deleted seccesfully");
+     products.Remove(p1);
+   Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "deleted seccesfully");
     }
 
     public void Update(Product product)

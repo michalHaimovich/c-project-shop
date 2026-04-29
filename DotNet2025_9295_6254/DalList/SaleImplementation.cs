@@ -18,16 +18,16 @@ public class SaleImplementation : ISale
     public Sale Read(int id)
     {
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read by id with: "+id);
-        var q = from s in sales
-                where s.id == id
-                select s;
+      var q = from s in sales
+       where s.id == id
+   select s;
 
         if (q.FirstOrDefault() == null)
         {
             Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, " id accepted not exist");
-            throw new ExceptionsIdNotFound();
+            throw new DalDoesNotExistException($"Sale with ID {id} does not exist.");
         }
-        else {
+    else {
             Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, " end read call found sale");
             return q.FirstOrDefault(); 
         }
@@ -38,7 +38,7 @@ public class SaleImplementation : ISale
     {
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, " called create with " + sale);
         int idRun = SaleConfig.Next;
-        sale = sale with {id = idRun };
+     sale = sale with {id = idRun };
         sales.Add(sale);
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "created seccsesfully");
         return idRun;
@@ -47,20 +47,20 @@ public class SaleImplementation : ISale
 
     public void Delete(int id)
     {
-        Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called delete with id : "+ id);
+ Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called delete with id : "+ id);
 
-        var q = from s in sales
-                where s.id == id
-                select s;
+     var q = from s in sales
+     where s.id == id
+       select s;
 
         Sale? s1 = q.FirstOrDefault();
         if(s1 == null) {
             Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "exception no id was found to delete");
-            throw new ExceptionsIdNotFound();
+          throw new DalDoesNotExistException($"Sale with ID {id} does not exist and cannot be deleted.");
         }
-            
-        sales.Remove(s1);
-        Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "deleted seccesfully");
+          
+      sales.Remove(s1);
+     Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "deleted seccesfully");
     }
 
     public void Update(Sale sale)
@@ -68,7 +68,7 @@ public class SaleImplementation : ISale
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called update ");
         Delete(sale.id);
 
-        sales.Add(sale);
+sales.Add(sale);
 
     }
 

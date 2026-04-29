@@ -21,7 +21,7 @@ public class CustomerImplementation : ICustomer
         if (q.FirstOrDefault() == null)
         {
             Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, " id accepted not exist");
-            throw new ExceptionsIdNotFound();
+            throw new DalDoesNotExistException($"Customer with ID {id} does not exist.");
         }
         else
 
@@ -41,7 +41,7 @@ public class CustomerImplementation : ICustomer
         if (exist)
         {
             Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "exception id already exists");
-            throw new ExceptionIDAllredyExist();
+            throw new DalAlreadyExistsException($"Customer with ID {customer.id} already exists.");
         }
         customers.Add(customer);
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "created successfully");
@@ -64,7 +64,7 @@ public class CustomerImplementation : ICustomer
         if (s1 == null)
         {
             Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "exception no id was found to delete");
-            throw new ExceptionsIdNotFound();
+            throw new DalDoesNotExistException($"Customer with ID {id} does not exist and cannot be deleted.");
         }
         customers.Remove(s1);
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "deleted successfully");

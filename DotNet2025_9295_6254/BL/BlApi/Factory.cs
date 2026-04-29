@@ -10,7 +10,7 @@ namespace BlApi
     {
         public static BlApi.IBl Get()
         {
-            return BlImplementation.BL();
+            return new BlImplementation.BL();
         }
     }
 }

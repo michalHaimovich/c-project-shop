@@ -39,10 +39,10 @@ public class ProductImplementation : IProduct
     public int Create(Product product)
     {
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, " called create with " + product);
-   int idRun = ProductConfig.Next;
- product = product with { id = idRun };
+        int idRun = ProductConfig.Next;
+        product = product with { id = idRun };
         products.Add(product);
-      Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "created seccsesfully");
+        Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "created seccsesfully");
         return idRun;
     }
 

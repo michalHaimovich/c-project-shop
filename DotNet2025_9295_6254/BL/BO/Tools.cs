@@ -53,7 +53,8 @@ namespace BO
                 Id = customer.id,
                 Name = customer.customer_name,
                 Address = customer.customer_adress,
-                Phone = customer.customer_phon
+                Phone = customer.customer_phon,
+                IsClubMember = customer. isClubMember
             };
         }
 

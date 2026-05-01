@@ -39,16 +39,16 @@ namespace DalTest
         private static void createCustomers(ICustomer Customer)
         {
 
-            Customer.Create(new Customer(6254, "Michal", "Modiin Ilit", "0556781551"));
-            Customer.Create(new Customer(1023, "David", "Tel Aviv", "0541234567"));
-            Customer.Create(new Customer(4872, "Sarah", "Jerusalem", "0539876543"));
-            Customer.Create(new Customer(3456, "Yossi", "Haifa", "0523456789"));
-            Customer.Create(new Customer(7890, "Tamar", "Beersheba", "0512345678"));
-            Customer.Create(new Customer(2345, "Omer", "Eilat", "0587654321"));
-            Customer.Create(new Customer(5678, "Noa", "Raanana", "0578901234"));
-            Customer.Create(new Customer(1357, "Gilad", "Petah Tikva", "0501234567"));
-            Customer.Create(new Customer(2468, "Amit", "Kfar Saba", "0598765432"));
-            Customer.Create(new Customer(3690, "Liraz", "Ashdod", "0567890123"));
+            Customer.Create(new Customer(6254, "Michal", "Modiin Ilit", "0556781551", true));
+            Customer.Create(new Customer(1023, "David", "Tel Aviv", "0541234567", false));
+            Customer.Create(new Customer(4872, "Sarah", "Jerusalem", "0539876543", false));
+            Customer.Create(new Customer(3456, "Yossi", "Haifa", "0523456789", true));
+            Customer.Create(new Customer(7890, "Tamar", "Beersheba", "0512345678", false));
+            Customer.Create(new Customer(2345, "Omer", "Eilat", "0587654321", false));
+            Customer.Create(new Customer(5678, "Noa", "Raanana", "0578901234", true));
+            Customer.Create(new Customer(1357, "Gilad", "Petah Tikva", "0501234567", false));
+            Customer.Create(new Customer(2468, "Amit", "Kfar Saba", "0598765432", false));
+            Customer.Create(new Customer(3690, "Liraz", "Ashdod", "0567890123", true));
         }
         public static void initialize()
         {

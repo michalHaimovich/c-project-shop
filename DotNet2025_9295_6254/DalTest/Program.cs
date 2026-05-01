@@ -1,6 +1,4 @@
-﻿
-
-using DO;
+﻿using DO;
 
 using DalApi;
 
@@ -183,8 +181,9 @@ internal class Program
         string customerName = Console.ReadLine()!;
         string customerAddress = Console.ReadLine()!;
         string customerPhone = Console.ReadLine()!;
+        bool isClubMember = bool.Parse(Console.ReadLine() ?? "false")!;
 
-        return new Customer(id, customerName, customerAddress, customerPhone);
+        return new Customer(id, customerName, customerAddress, customerPhone, isClubMember);
     }
 
     private static void ReadEntity<T>(ICrud<T> inter, string name)

@@ -1,0 +1,918 @@
+using BlApi;
+using BO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BLTest
+{
+    /// <summary>
+    /// תוכנית בדיקה לשכבת הלוגיקה (BL)
+    /// בודקת את כל הפעולות של הזמנות, מוצרים ולקוחות כולל edge cases
+    /// </summary>
+    class Program
+    {
+        // שדה סטטי לממשק הלוגיקה הראשי
+         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+        // משתנים גלובליים לאחזור מוצרים ולקוחות לשימוש בבדיקות
+        private static List<int> productIds = new List<int>();
+        private static List<int> clientIds = new List<int>();
+
+        static void Main(string[] args)
+        {
+            try
+   {
+           // 1. אתחול הנתונים משכבת DAL (מאתחל מוצרים, מבצעים ולקוחות)
+      DalTest.Initializatation.initialize();
+                Console.WriteLine("✅ נתונים אותחלו בהצלחה מ-DalTest");
+     Console.WriteLine(new string('-', 60));
+
+           // 2. שליפת נתונים עבור השימוש בבדיקות
+         LoadMinimalData();
+
+                // 3. הצגת תפריט אינטראקטיבי
+           ShowMenu();
+}
+  catch (Exception ex)
+            {
+  Console.WriteLine($"❌ שגיאה כללית: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+     /// שליפת דטה מינימלית מהבסיס (3 מוצרים ו-2 לקוחות) לשימוש בבדיקות
+        /// </summary>
+        private static void LoadMinimalData()
+        {
+            try
+        {
+    // שליפת כל המוצרים והחזקת ה-3 הראשונים בלבד
+      var allProducts = s_bl.IProduct.GetAll().ToList();
+    productIds = allProducts.Take(3).Select(p => p.Id).ToList();
+
+         // שליפת כל הלקוחות והחזקת ה-2 הראשונים בלבד
+  var allClients = s_bl.IClient.GetAll().ToList();
+                clientIds = allClients.Take(2).Select(c => c.Id).ToList();
+
+           Console.WriteLine($"📦 נטענו {productIds.Count} מוצרים בדיקה: {string.Join(", ", productIds)}");
+     Console.WriteLine($"👥 נטענו {clientIds.Count} לקוחות בדיקה: {string.Join(", ", clientIds)}");
+       Console.WriteLine();
+    }
+            catch (Exception ex)
+            {
+       Console.WriteLine($"❌ שגיאה בטעינת נתונים: {ex.Message}");
+        }
+        }
+
+        /// <summary>
+        /// תפריט אינטראקטיבי ראשי עם אפשרויות בדיקה שונות
+        /// </summary>
+        private static void ShowMenu()
+        {
+  bool exitProgram = false;
+
+            while (!exitProgram)
+ {
+     Console.WriteLine("\n╔════════════════════════════════════════╗");
+Console.WriteLine("║   תפריט בדיקות שכבת הלוגיקה (BL)   ║");
+        Console.WriteLine("╚════════════════════════════════════════╝");
+       Console.WriteLine("1. בדיקות הזמנות (Orders)");
+        Console.WriteLine("2. בדיקות מוצרים (Products)");
+              Console.WriteLine("3. בדיקות לקוחות (Clients)");
+      Console.WriteLine("4. בדיקות מבצעים (Sales)");
+    Console.WriteLine("0. יציאה מהתוכנית");
+     Console.WriteLine("────────────────────────────────────────");
+    Console.Write("בחר אפשרות: ");
+
+          string choice = Console.ReadLine() ?? "0";
+
+     switch (choice)
+          {
+    case "1":
+      OrderTestsMenu();
+ break;
+    case "2":
+                   ProductTestsMenu();
+      break;
+            case "3":
+      ClientTestsMenu();
+       break;
+         case "4":
+   SalesTestsMenu();
+       break;
+   case "0":
+         exitProgram = true;
+       Console.WriteLine("👋 התוכנית הופסקה. להתראות!");
+       break;
+       default:
+           Console.WriteLine("❌ בחירה לא תקינה, אנא בחר שוב");
+  break;
+         }
+    }
+        }
+
+    /// <summary>
+        /// תפריט בדיקות הזמנות עם כל edge cases
+ /// </summary>
+        private static void OrderTestsMenu()
+        {
+        bool backToMenu = false;
+
+            while (!backToMenu)
+ {
+           Console.WriteLine("\n╔════════════════════════════════════════╗");
+              Console.WriteLine("║       בדיקות הזמנות (Orders)       ║");
+           Console.WriteLine("╚════════════════════════════════════════╝");
+      Console.WriteLine("1. הוסף מוצר תקין להזמנה");
+        Console.WriteLine("2. הוסף מוצר שלא קיים (Edge Case)");
+          Console.WriteLine("3. הוסף כמות שלילית למוצר חדש (Edge Case)");
+      Console.WriteLine("4. הוסף כמות גדולה מהמלאי (Edge Case)");
+    Console.WriteLine("5. עדכן כמות של מוצר קיים בהזמנה");
+       Console.WriteLine("6. הסר מוצר מהזמנה (כמות שלילית)");
+      Console.WriteLine("7. חישוב מחיר עם מבצעים");
+          Console.WriteLine("8. ביצוע הזמנה (DoOrder)");
+       Console.WriteLine("0. חזור לתפריט ראשי");
+      Console.WriteLine("────────────────────────────────────────");
+        Console.Write("בחר אפשרות: ");
+
+          string choice = Console.ReadLine() ?? "0";
+
+    switch (choice)
+        {
+          case "1":
+       TestAddValidProduct();
+          break;
+              case "2":
+            TestAddNonExistentProduct();
+            break;
+      case "3":
+                    TestAddNegativeQuantity();
+      break;
+    case "4":
+ TestAddQuantityExceedsStock();
+      break;
+case "5":
+    TestUpdateProductQuantity();
+        break;
+          case "6":
+        TestRemoveProductFromOrder();
+          break;
+          case "7":
+                TestCalculatePriceWithSales();
+    break;
+        case "8":
+    TestDoOrder();
+     break;
+      case "0":
+      backToMenu = true;
+    break;
+ default:
+ Console.WriteLine("❌ בחירה לא תקינה");
+          break;
+          }
+ }
+        }
+
+        /// <summary>
+        /// בדיקה 1: הוסף מוצר קיים עם כמות תקינה להזמנה
+        /// </summary>
+        private static void TestAddValidProduct()
+        {
+            Console.WriteLine("\n✅ בדיקה: הוסף מוצר תקין להזמנה");
+   try
+        {
+      // יצירת הזמנה חדשה
+     var order = new Order
+     {
+    IsPreferredClient = true,
+      Products = new List<ProductInOrder>(),
+  FinalPrice = 0
+           };
+
+       // הוספת מוצר קיים עם כמות תקינה
+  int productId = productIds[0];
+    int quantity = 2;
+
+        var sales = s_bl.IOrder.AddProductToOrder(order, productId, quantity);
+
+  Console.WriteLine($"✅ מוצר {productId} נוסף בהצלחה");
+    Console.WriteLine($"  כמות: {quantity}");
+       Console.WriteLine($"  מספר מבצעים זמינים: {sales.Count}");
+        PrintOrderDetails(order);
+ }
+        catch (Exception ex)
+   {
+     Console.WriteLine($"❌ שגיאה: {ex.Message}");
+            }
+   }
+
+        /// <summary>
+        /// בדיקה 2: ניסיון הוספת מוצר שלא קיים (Edge Case)
+        /// </summary>
+    private static void TestAddNonExistentProduct()
+        {
+ Console.WriteLine("\n⚠️  בדיקה: הוסף מוצר שלא קיים (Edge Case)");
+         try
+    {
+       var order = new Order
+          {
+   IsPreferredClient = false,
+     Products = new List<ProductInOrder>(),
+   FinalPrice = 0
+                };
+
+ // ניסיון הוספת מוצר עם ID שגוי
+            int invalidProductId = 99999;
+          int quantity = 1;
+
+          var sales = s_bl.IOrder.AddProductToOrder(order, invalidProductId, quantity);
+
+          Console.WriteLine($"❌ הייתה צריכה להיות שגיאה!");
+       }
+            catch (Exception ex)
+ {
+      Console.WriteLine($"✅ נתפסה שגיאה כצפוי: {ex.Message}");
+  }
+      }
+
+        /// <summary>
+        /// בדיקה 3: ניסיון הוספת כמות שלילית למוצר חדש (Edge Case)
+        /// </summary>
+      private static void TestAddNegativeQuantity()
+      {
+            Console.WriteLine("\n⚠️  בדיקה: הוסף כמות שלילית להזמנה (Edge Case)");
+         try
+            {
+      var order = new Order
+   {
+          IsPreferredClient = true,
+   Products = new List<ProductInOrder>(),
+               FinalPrice = 0
+     };
+
+              int productId = productIds[0];
+           int negativeQuantity = -5;
+
+     var sales = s_bl.IOrder.AddProductToOrder(order, productId, negativeQuantity);
+
+Console.WriteLine($"❌ הייתה צריכה להיות שגיאה!");
+          }
+   catch (Exception ex)
+            {
+                Console.WriteLine($"✅ נתפסה שגיאה כצפוי: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+ /// בדיקה 4: ניסיון הוספת כמות גדולה מהמלאי (Edge Case)
+        /// </summary>
+      private static void TestAddQuantityExceedsStock()
+        {
+    Console.WriteLine("\n⚠️  בדיקה: הוסף כמות גדולה מהמלאי (Edge Case)");
+    try
+       {
+      var order = new Order
+     {
+     IsPreferredClient = false,
+        Products = new List<ProductInOrder>(),
+        FinalPrice = 0
+    };
+
+            // הוספת כמות ענקית שבטוח תעלה על המלאי
+      int productId = productIds[1];
+int excessiveQuantity = 10000;
+
+      var sales = s_bl.IOrder.AddProductToOrder(order, productId, excessiveQuantity);
+
+ Console.WriteLine($"❌ הייתה צריכה להיות שגיאה!");
+          }
+         catch (Exception ex)
+         {
+      Console.WriteLine($"✅ נתפסה שגיאה כצפוי: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// בדיקה 5: עדכון כמות של מוצר קיים בהזמנה
+ /// </summary>
+     private static void TestUpdateProductQuantity()
+        {
+            Console.WriteLine("\n✅ בדיקה: עדכן כמות של מוצר קיים");
+try
+     {
+    var order = new Order
+    {
+          IsPreferredClient = true,
+          Products = new List<ProductInOrder>(),
+         FinalPrice = 0
+            };
+
+      // הוספת מוצר ראשון
+     int productId = productIds[0];
+     s_bl.IOrder.AddProductToOrder(order, productId, 2);
+        Console.WriteLine($"✅ מוצר נוסף עם כמות 2");
+
+        // עדכון הכמות (הוספת 3 יותר)
+         var sales = s_bl.IOrder.AddProductToOrder(order, productId, 3);
+             Console.WriteLine($"✅ כמות עודכנה: הוסף עוד 3");
+
+     var product = order.Products.FirstOrDefault(p => p.ProductId == productId);
+    if (product != null)
+         {
+  Console.WriteLine($"  הכמות החדשה: {product.Quantity}");
+        }
+
+                PrintOrderDetails(order);
+         }
+            catch (Exception ex)
+    {
+      Console.WriteLine($"❌ שגיאה: {ex.Message}");
+      }
+   }
+
+     /// <summary>
+        /// בדיקה 6: הסר מוצר מהזמנה על ידי הוספת כמות שלילית
+        /// </summary>
+ private static void TestRemoveProductFromOrder()
+   {
+  Console.WriteLine("\n✅ בדיקה: הסר מוצר מהזמנה");
+            try
+            {
+  var order = new Order
+        {
+         IsPreferredClient = false,
+   Products = new List<ProductInOrder>(),
+         FinalPrice = 0
+ };
+
+         // הוספת מוצר
+       int productId = productIds[1];
+   s_bl.IOrder.AddProductToOrder(order, productId, 5);
+           Console.WriteLine($"✅ מוצר נוסף עם כמות 5");
+       Console.WriteLine($"  מספר מוצרים בהזמנה: {order.Products.Count}");
+
+// הסרת המוצר (הוספת כמות שלילית לחלוטין)
+        var sales = s_bl.IOrder.AddProductToOrder(order, productId, -5);
+         Console.WriteLine($"✅ מוצר הוסר מההזמנה (כמות שלילית)");
+        Console.WriteLine($"  מספר מוצרים בהזמנה אחרי הסרה: {order.Products.Count}");
+   }
+     catch (Exception ex)
+   {
+   Console.WriteLine($"❌ שגיאה: {ex.Message}");
+        }
+        }
+
+/// <summary>
+  /// בדיקה 7: חישוב מחיר עם מבצעים
+   /// </summary>
+   private static void TestCalculatePriceWithSales()
+        {
+        Console.WriteLine("\n✅ בדיקה: חישוב מחיר עם מבצעים");
+            try
+            {
+  var order = new Order
+      {
+        IsPreferredClient = true,
+    Products = new List<ProductInOrder>(),
+      FinalPrice = 0
+         };
+
+      // הוספת מספר מוצרים
+ for (int i = 0; i < 2; i++)
+        {
+        s_bl.IOrder.AddProductToOrder(order, productIds[i], 5 + (i * 2));
+     }
+
+     Console.WriteLine($"✅ הוספו {order.Products.Count} מוצרים להזמנה");
+          Console.WriteLine($"  לקוח עדיף: {order.IsPreferredClient}");
+
+       PrintOrderDetails(order);
+       }
+      catch (Exception ex)
+          {
+    Console.WriteLine($"❌ שגיאה: {ex.Message}");
+         }
+      }
+
+        /// <summary>
+        /// בדיקה 8: ביצוע הזמנה (DoOrder) - עדכון המלאי
+        /// </summary>
+        private static void TestDoOrder()
+        {
+ Console.WriteLine("\n✅ בדיקה: ביצוע הזמנה (DoOrder)");
+            try
+       {
+     // שליפת מוצר לפני ביצוע ההזמנה
+  var productBefore = s_bl.IProduct.Get(productIds[0]);
+                int stockBefore = productBefore?.Stock ?? 0;
+   Console.WriteLine($"📊 מלאי מוצר {productIds[0]} לפני: {stockBefore}");
+
+          var order = new Order
+   {
+        IsPreferredClient = false,
+         Products = new List<ProductInOrder>(),
+    FinalPrice = 0
+                };
+
+            // הוספת מוצר להזמנה
+        int quantityToOrder = 2;
+   s_bl.IOrder.AddProductToOrder(order, productIds[0], quantityToOrder);
+        Console.WriteLine($"📦 הזמנה של {quantityToOrder} יחידות");
+
+         // ביצוע ההזמנה (צריך להוריד את המלאי)
+ s_bl.IOrder.DoOrder(order);
+      Console.WriteLine($"✅ הזמנה בוצעה בהצלחה");
+
+   // שליפת המוצר אחרי ביצוע ההזמנה
+var productAfter = s_bl.IProduct.Get(productIds[0]);
+                int stockAfter = productAfter?.Stock ?? 0;
+                Console.WriteLine($"📊 מלאי מוצר {productIds[0]} אחרי: {stockAfter}");
+           Console.WriteLine($"💾 הוריד מהמלאי: {stockBefore - stockAfter} יחידות");
+            }
+            catch (Exception ex)
+          {
+                Console.WriteLine($"❌ שגיאה: {ex.Message}");
+    }
+        }
+
+        /// <summary>
+        /// תפריט בדיקות מוצרים
+        /// </summary>
+        private static void ProductTestsMenu()
+        {
+ bool backToMenu = false;
+
+          while (!backToMenu)
+   {
+              Console.WriteLine("\n╔════════════════════════════════════════╗");
+     Console.WriteLine("║       בדיקות מוצרים (Products)  ║");
+       Console.WriteLine("╚════════════════════════════════════════╝");
+  Console.WriteLine("1. שלוף מוצר קיים");
+           Console.WriteLine("2. שלוף מוצר שלא קיים (Edge Case)");
+  Console.WriteLine("3. שלוף כל המוצרים");
+    Console.WriteLine("4. חיפוש מוצר עם Filter");
+             Console.WriteLine("0. חזור לתפריט ראשי");
+    Console.WriteLine("────────────────────────────────────────");
+     Console.Write("בחר אפשרות: ");
+
+                string choice = Console.ReadLine() ?? "0";
+
+switch (choice)
+              {
+      case "1":
+       TestGetExistingProduct();
+         break;
+               case "2":
+        TestGetNonExistentProduct();
+             break;
+              case "3":
+               TestGetAllProducts();
+      break;
+     case "4":
+         TestGetProductWithFilter();
+            break;
+  case "0":
+          backToMenu = true;
+        break;
+         default:
+            Console.WriteLine("❌ בחירה לא תקינה");
+   break;
+        }
+ }
+  }
+
+   /// <summary>
+        /// בדיקה: שלוף מוצר קיים
+        /// </summary>
+        private static void TestGetExistingProduct()
+        {
+  Console.WriteLine("\n✅ בדיקה: שלוף מוצר קיים");
+  try
+    {
+       var product = s_bl.IProduct.Get(productIds[0]);
+       if (product != null)
+      {
+  Console.WriteLine($"✅ מוצר נמצא:");
+  Console.WriteLine($"  ID: {product.Id}");
+        Console.WriteLine($"  שם: {product.Name}");
+            Console.WriteLine($"  קטגוריה: {product.category}");
+  Console.WriteLine($"  מחיר: ${product.Price}");
+ Console.WriteLine($"  מלאי: {product.Stock}");
+         }
+      else
+ {
+           Console.WriteLine($"❌ מוצר לא נמצא");
+     }
+            }
+            catch (Exception ex)
+  {
+       Console.WriteLine($"❌ שגיאה: {ex.Message}");
+    }
+        }
+
+        /// <summary>
+        /// בדיקה: שלוף מוצר שלא קיים (Edge Case)
+        /// </summary>
+        private static void TestGetNonExistentProduct()
+        {
+     Console.WriteLine("\n⚠️  בדיקה: שלוף מוצר שלא קיים (Edge Case)");
+            try
+    {
+    int invalidId = 99999;
+       var product = s_bl.IProduct.Get(invalidId);
+
+    if (product == null)
+          {
+         Console.WriteLine($"✅ כפי הצפוי, מוצר עם ID {invalidId} לא קיים");
+    }
+         }
+            catch (Exception ex)
+       {
+Console.WriteLine($"✅ נתפסה שגיאה כצפוי: {ex.Message}");
+ }
+        }
+
+        /// <summary>
+        /// בדיקה: שלוף את כל המוצרים
+      /// </summary>
+   private static void TestGetAllProducts()
+        {
+     Console.WriteLine("\n✅ בדיקה: שלוף את כל המוצרים");
+          try
+            {
+     var allProducts = s_bl.IProduct.GetAll().ToList();
+     Console.WriteLine($"✅ הוחזרו {allProducts.Count} מוצרים:");
+           Console.WriteLine();
+
+         foreach (var product in allProducts.Take(5))
+   {
+    Console.WriteLine($"  ID: {product.Id:D4} | שם: {product.Name:15} | מחיר: ${product.Price:4} | מלאי: {product.Stock:3}");
+      }
+
+     if (allProducts.Count > 5)
+         {
+      Console.WriteLine($"  ... ועוד {allProducts.Count - 5} מוצרים");
+   }
+ }
+        catch (Exception ex)
+      {
+     Console.WriteLine($"❌ שגיאה: {ex.Message}");
+        }
+        }
+
+        /// <summary>
+        /// בדיקה: חיפוש מוצר עם Filter
+  /// </summary>
+ private static void TestGetProductWithFilter()
+        {
+        Console.WriteLine("\n✅ בדיקה: חיפוש מוצר עם Filter");
+            try
+    {
+         // חיפוש מוצר עם קטגוריה מסוימת
+        var product = s_bl.IProduct.Get(p => p.category == ElectricalApplianceCategory.ENTERTAINMENT);
+
+             if (product != null)
+   {
+              Console.WriteLine($"✅ מוצר בקטגוריית ENTERTAINMENT:");
+       Console.WriteLine($"  ID: {product.Id}");
+     Console.WriteLine($"  שם: {product.Name}");
+              Console.WriteLine($"  מחיר: ${product.Price}");
+  }
+         else
+                {
+ Console.WriteLine($"❌ לא נמצא מוצר בקטגוריית ENTERTAINMENT");
+       }
+    }
+    catch (Exception ex)
+            {
+         Console.WriteLine($"❌ שגיאה: {ex.Message}");
+            }
+}
+
+   /// <summary>
+        /// תפריט בדיקות לקוחות
+        /// </summary>
+        private static void ClientTestsMenu()
+   {
+   bool backToMenu = false;
+
+          while (!backToMenu)
+         {
+           Console.WriteLine("\n╔════════════════════════════════════════╗");
+    Console.WriteLine("║בדיקות לקוחות (Clients)    ║");
+                Console.WriteLine("╚════════════════════════════════════════╝");
+       Console.WriteLine("1. שלוף לקוח קיים");
+  Console.WriteLine("2. שלוף לקוח שלא קיים (Edge Case)");
+         Console.WriteLine("3. שלוף את כל הלקוחות");
+ Console.WriteLine("4. בדוק אם לקוח קיים");
+      Console.WriteLine("5. חיפוש לקוח עם Filter");
+    Console.WriteLine("0. חזור לתפריט ראשי");
+           Console.WriteLine("────────────────────────────────────────");
+                Console.Write("בחר אפשרות: ");
+
+        string choice = Console.ReadLine() ?? "0";
+
+   switch (choice)
+        {
+    case "1":
+       TestGetExistingClient();
+      break;
+       case "2":
+    TestGetNonExistentClient();
+    break;
+         case "3":
+    TestGetAllClients();
+             break;
+         case "4":
+      TestClientExists();
+   break;
+      case "5":
+      TestGetClientWithFilter();
+              break;
+        case "0":
+         backToMenu = true;
+      break;
+        default:
+         Console.WriteLine("❌ בחירה לא תקינה");
+        break;
+                }
+ }
+        }
+
+     /// <summary>
+        /// בדיקה: שלוף לקוח קיים
+      /// </summary>
+private static void TestGetExistingClient()
+        {
+            Console.WriteLine("\n✅ בדיקה: שלוף לקוח קיים");
+   try
+   {
+      var client = s_bl.IClient.Get(clientIds[0]);
+    if (client != null)
+     {
+          Console.WriteLine($"✅ לקוח נמצא:");
+          Console.WriteLine($"  ID: {client.Id}");
+   Console.WriteLine($"  שם: {client.Name}");
+         Console.WriteLine($"  טלפון: {client.Phone ?? "לא קיים"}");
+          Console.WriteLine($"  כתובת: {client.Address ?? "לא קיימת"}");
+ }
+       else
+            {
+                Console.WriteLine($"❌ לקוח לא נמצא");
+         }
+}
+          catch (Exception ex)
+            {
+            Console.WriteLine($"❌ שגיאה: {ex.Message}");
+          }
+        }
+
+        /// <summary>
+      /// בדיקה: שלוף לקוח שלא קיים (Edge Case)
+        /// </summary>
+ private static void TestGetNonExistentClient()
+        {
+Console.WriteLine("\n⚠️  בדיקה: שלוף לקוח שלא קיים (Edge Case)");
+        try
+   {
+     int invalidId = 99999;
+             var client = s_bl.IClient.Get(invalidId);
+
+ if (client == null)
+           {
+      Console.WriteLine($"✅ כפי הצפוי, לקוח עם ID {invalidId} לא קיים");
+             }
+      }
+catch (Exception ex)
+      {
+    Console.WriteLine($"✅ נתפסה שגיאה כצפוי: {ex.Message}");
+      }
+        }
+
+        /// <summary>
+ /// בדיקה: שלוף את כל הלקוחות
+  /// </summary>
+        private static void TestGetAllClients()
+        {
+            Console.WriteLine("\n✅ בדיקה: שלוף את כל הלקוחות");
+         try
+       {
+            var allClients = s_bl.IClient.GetAll().ToList();
+                Console.WriteLine($"✅ הוחזרו {allClients.Count} לקוחות:");
+    Console.WriteLine();
+
+    foreach (var client in allClients.Take(5))
+         {
+  Console.WriteLine($"  ID: {client.Id:D5} | שם: {client.Name:15} | טלפון: {client.Phone ?? "N/A"}");
+           }
+
+if (allClients.Count > 5)
+              {
+   Console.WriteLine($"  ... ועוד {allClients.Count - 5} לקוחות");
+      }
+          }
+     catch (Exception ex)
+   {
+         Console.WriteLine($"❌ שגיאה: {ex.Message}");
+            }
+    }
+
+        /// <summary>
+        /// בדיקה: בדוק אם לקוח קיים
+        /// </summary>
+private static void TestClientExists()
+        {
+   Console.WriteLine("\n✅ בדיקה: בדוק אם לקוח קיים");
+       try
+ {
+          // בדוק לקוח שקיים
+     bool exists = s_bl.IClient.Exists(clientIds[0]);
+     Console.WriteLine($"✅ לקוח עם ID {clientIds[0]} קיים: {exists}");
+
+       // בדוק לקוח שלא קיים
+                exists = s_bl.IClient.Exists(99999);
+         Console.WriteLine($"✅ לקוח עם ID 99999 קיים: {exists}");
+   }
+   catch (Exception ex)
+            {
+       Console.WriteLine($"❌ שגיאה: {ex.Message}");
+}
+        }
+
+        /// <summary>
+        /// בדיקה: חיפוש לקוח עם Filter
+        /// </summary>
+        private static void TestGetClientWithFilter()
+        {
+            Console.WriteLine("\n✅ בדיקה: חיפוש לקוח עם Filter");
+            try
+   {
+             // חיפוש לקוח שאמו מתחיל ב-'M'
+      var client = s_bl.IClient.Read(c => c.Name.StartsWith("M"));
+
+           if (client != null)
+         {
+         Console.WriteLine($"✅ לקוח עם שם שמתחיל ב-'M':");
+  Console.WriteLine($"  ID: {client.Id}");
+       Console.WriteLine($"  שם: {client.Name}");
+    Console.WriteLine($"  טלפון: {client.Phone ?? "לא קיים"}");
+                }
+     else
+      {
+        Console.WriteLine($"❌ לא נמצא לקוח שאמו מתחיל ב-'M'");
+              }
+      }
+      catch (Exception ex)
+            {
+        Console.WriteLine($"❌ שגיאה: {ex.Message}");
+            }
+        }
+
+    /// <summary>
+        /// תפריט בדיקות מבצעים
+    /// </summary>
+        private static void SalesTestsMenu()
+        {
+   bool backToMenu = false;
+
+while (!backToMenu)
+  {
+   Console.WriteLine("\n╔════════════════════════════════════════╗");
+Console.WriteLine("║   בדיקות מבצעים (Sales)        ║");
+      Console.WriteLine("╚════════════════════════════════════════╝");
+    Console.WriteLine("1. שלוף מבצע קיים");
+   Console.WriteLine("2. שלוף מבצע שלא קיים (Edge Case)");
+            Console.WriteLine("3. שלוף את כל המבצעים");
+                Console.WriteLine("0. חזור לתפריט ראשי");
+     Console.WriteLine("────────────────────────────────────────");
+       Console.Write("בחר אפשרות: ");
+
+                string choice = Console.ReadLine() ?? "0";
+
+        switch (choice)
+           {
+  case "1":
+     TestGetExistingSale();
+    break;
+     case "2":
+      TestGetNonExistentSale();
+          break;
+              case "3":
+     TestGetAllSales();
+   break;
+       case "0":
+            backToMenu = true;
+         break;
+                    default:
+ Console.WriteLine("❌ בחירה לא תקינה");
+           break;
+       }
+       }
+        }
+
+        /// <summary>
+        /// בדיקה: שלוף מבצע קיים
+        /// </summary>
+      private static void TestGetExistingSale()
+  {
+      Console.WriteLine("\n✅ בדיקה: שלוף מבצע קיים");
+      try
+     {
+      var sale = s_bl.ISale.Get(1); // בדוק אם מבצע 1 קיים
+    if (sale != null)
+            {
+     Console.WriteLine($"✅ מבצע נמצא:");
+        Console.WriteLine($"  ID: {sale.Id}");
+          Console.WriteLine($"  מוצר ID: {sale.ProductId}");
+           Console.WriteLine($"  אחוז הנחה: {sale.amount}%");
+  Console.WriteLine($"  כמות מינימום: {sale.count_to_sale}");
+             Console.WriteLine($"  עבור לקוחות מועדפים בלבד: {sale.to_club}");
+         Console.WriteLine($"  תאריך התחלה: {sale.start_date:yyyy-MM-dd}");
+    Console.WriteLine($"  תאריך סיום: {sale.end_date:yyyy-MM-dd}");
+           }
+ else
+          {
+             Console.WriteLine($"❌ מבצע לא נמצא");
+      }
+            }
+catch (Exception ex)
+ {
+                Console.WriteLine($"❌ שגיאה: {ex.Message}");
+            }
+     }
+
+        /// <summary>
+        /// בדיקה: שלוף מבצע שלא קיים (Edge Case)
+ /// </summary>
+   private static void TestGetNonExistentSale()
+     {
+        Console.WriteLine("\n⚠️  בדיקה: שלוף מבצע שלא קיים (Edge Case)");
+       try
+     {
+    int invalidId = 99999;
+              var sale = s_bl.ISale.Get(invalidId);
+
+     if (sale == null)
+      {
+     Console.WriteLine($"✅ כפי הצפוי, מבצע עם ID {invalidId} לא קיים");
+                }
+  }
+            catch (Exception ex)
+            {
+       Console.WriteLine($"✅ נתפסה שגיאה כצפוי: {ex.Message}");
+   }
+        }
+
+        /// <summary>
+    /// בדיקה: שלוף את כל המבצעים
+ /// </summary>
+        private static void TestGetAllSales()
+      {
+      Console.WriteLine("\n✅ בדיקה: שלוף את כל המבצעים");
+            try
+       {
+  var allSales = s_bl.ISale.GetAll().ToList();
+         Console.WriteLine($"✅ הוחזרו {allSales.Count} מבצעים:");
+        Console.WriteLine();
+
+            foreach (var sale in allSales.Take(10))
+                {
+   Console.WriteLine($"ID: {sale.Id:D2} | מוצר: {sale.ProductId:D4} | הנחה: {sale.amount}% | דרוש: {sale.count_to_sale} | עבור VIP: {sale.to_club}");
+        }
+
+  if (allSales.Count > 10)
+     {
+          Console.WriteLine($"  ... ועוד {allSales.Count - 10} מבצעים");
+    }
+      }
+  catch (Exception ex)
+ {
+  Console.WriteLine($"❌ שגיאה: {ex.Message}");
+  }
+        }
+
+        /// <summary>
+        /// פונקציה עזר: הדפסת פרטי ההזמנה בפורמט קריא
+        /// </summary>
+   private static void PrintOrderDetails(Order order)
+        {
+            Console.WriteLine("\n┌─ פרטי ההזמנה ─────────────────────────────┐");
+   Console.WriteLine($"│ לקוח מועדף: {(order.IsPreferredClient ? "כן ✓" : "לא ✗")}");
+Console.WriteLine($"│ מספר מוצרים: {order.Products.Count}");
+            Console.WriteLine($"│");
+
+        foreach (var product in order.Products)
+    {
+       Console.WriteLine($"│ 📦 מוצר ID {product.ProductId}: {product.Name}");
+        Console.WriteLine($"│    כמות: {product.Quantity} | מחיר בסיס: ${product.BasePrice}");
+              Console.WriteLine($"│    מבצעים זמינים: {product.Sales?.Count ?? 0}");
+         Console.WriteLine($"│    מחיר סופי: ${product.FinalPrice:F2}");
+            }
+
+  Console.WriteLine($"│");
+          Console.WriteLine($"│ 💰 סכום הזמנה סופי: ${order.FinalPrice:F2}");
+        Console.WriteLine("└────────────────────────────────────────────┘");
+        }
+    }
+}

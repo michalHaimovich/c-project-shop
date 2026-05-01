@@ -10,17 +10,19 @@ namespace DO
         int id,
          string customer_name,
          string customer_adress,
-         string customer_phon)
+         string customer_phon,
+         bool isClubMember
+        )
     {
 
-        public Customer() : this(0, "", "", "")
+        public Customer() : this(0, "", "", "", false)
         {
 
         }
 
         public override string ToString()
         {
-            return $"Customer ID: {this.id}, name: {customer_name}, adress: {customer_adress}, phon: {customer_phon}";
+            return $"Customer ID: {this.id}, name: {customer_name}, adress: {customer_adress}, phon: {customer_phon}, isClubMember: {isClubMember}";
         }
 
     }

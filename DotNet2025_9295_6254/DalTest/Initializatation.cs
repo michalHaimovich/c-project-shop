@@ -13,8 +13,8 @@ namespace DalTest
 
         private static void createSales(ISale sale)
         {
-            sale.Create(new Sale(1, s_productIds[0], 50, 5, true, DateTime.Now, DateTime.Now.AddDays(10)));
-            sale.Create(new Sale(2, s_productIds[1], 30, 3, false, DateTime.Now.AddDays(-1), DateTime.Now.AddDays(5)));
+            sale.Create(new Sale(1, s_productIds[0], 5, 1250, true, DateTime.Now.AddDays(-1), DateTime.Now.AddDays(10)));
+            sale.Create(new Sale(2, s_productIds[0], 30, 1000, false, DateTime.Now.AddDays(-1), DateTime.Now.AddDays(5)));
             sale.Create(new Sale(3, s_productIds[2], 20, 1, true, DateTime.Now.AddDays(2), DateTime.Now.AddDays(12)));
             sale.Create(new Sale(4, s_productIds[3], 100, 10, false, DateTime.Now, DateTime.Now.AddDays(15)));
             sale.Create(new Sale(5, s_productIds[4], 15, 2, true, DateTime.Now.AddDays(1), DateTime.Now.AddDays(3)));
@@ -23,7 +23,7 @@ namespace DalTest
         private static void createProduct(IProduct Product)
         {
 
-            s_productIds.Add(Product.Create(new Product(1001, ElectricalApplianceCategory.ENTERTAINMENT, "Laptop", 1500, 20)));
+            s_productIds.Add(Product.Create(new Product(1001, ElectricalApplianceCategory.ENTERTAINMENT, "Laptop", 1500, 200)));
             s_productIds.Add(Product.Create(new Product(1002, ElectricalApplianceCategory.PERSONAL_CARE, "phone", 700, 50)));
             s_productIds.Add(Product.Create(new Product(1003, ElectricalApplianceCategory.ENTERTAINMENT, "Headphones", 150, 100)));
             s_productIds.Add(Product.Create(new Product(1004, ElectricalApplianceCategory.PERSONAL_CARE, "Smartwatch", 300, 30)));

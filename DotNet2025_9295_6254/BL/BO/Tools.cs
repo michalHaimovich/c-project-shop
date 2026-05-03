@@ -77,8 +77,8 @@ namespace BO
             {
                 Id = sale.id,
                 ProductId = sale.product_id,
-                amount = sale.amount_to_sale,
-                count_to_sale = sale.count_to_sale,
+                amount_to_sale = sale.amount_to_sale,
+                cost_per_one = sale.count_to_sale,
                 to_club = sale.to_club,
                 start_date = sale.start_date,
                 end_date = sale.end_date
@@ -114,8 +114,8 @@ namespace BO
             {
                 id = sale.Id,
                 product_id = sale.ProductId,
-                amount_to_sale = sale.amount,
-                count_to_sale = sale.count_to_sale,
+                amount_to_sale = sale.amount_to_sale,
+                count_to_sale = sale.cost_per_one,
                 to_club = sale.to_club,
                 start_date = sale.start_date,
                 end_date = sale.end_date

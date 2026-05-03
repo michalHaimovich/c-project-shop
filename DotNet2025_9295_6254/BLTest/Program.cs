@@ -276,8 +276,8 @@ namespace BLTest
             foreach (var product in order.Products)
             {
                 Console.WriteLine($"│ 📦 {product.Name}");
-                Console.WriteLine($"│    ID: {product.ProductId} | כמות: {product.Quantity}");
-                Console.WriteLine($"│    מחיר בסיס: ${product.BasePrice} | מחיר סופי: ${product.FinalPrice}");
+                Console.WriteLine($"│    ID: {product.ProductId} | כמות: {product.Quantity_in_order}");
+                Console.WriteLine($"│    מחיר בסיס: ${product.BasePrice} | מחיר סופי: ${product.FinalPrice_in_total}");
                 if (product.Sales?.Count > 0)
                 {
                     Console.WriteLine($"│  🎁 מבצעים: {product.Sales.Count}");
@@ -347,9 +347,9 @@ namespace BLTest
 
                 Console.WriteLine($"│ 📦 {product.Name}");
                 Console.WriteLine($"│    ID מוצר: {product.ProductId}");
-                Console.WriteLine($"│    כמות הורה: {product.Quantity}");
+                Console.WriteLine($"│    כמות הורה: {product.Quantity_in_order}");
                 Console.WriteLine($"│    מחיר בסיס ליחידה: ${product.BasePrice}");
-                Console.WriteLine($"│    מחיר סופי: ${product.FinalPrice:F2}");
+                Console.WriteLine($"│    מחיר סופי: ${product.FinalPrice_in_total:F2}");
 
                 if (product.Sales != null && product.Sales.Count > 0)
                 {
@@ -357,7 +357,7 @@ namespace BLTest
                     totalSalesUsed += product.Sales.Count;
                     foreach (var sale in product.Sales)
                     {
-                        Console.WriteLine($"│       └─ הנחה {sale.Price * 100:F0}% (קנייה מינימום: {sale.Quantity} יחידות)");
+                        Console.WriteLine($"│       └─ הנחה {sale.Price_per_one * 100:F0}% (קנייה מינימום: {sale.Amount_to_sale} יחידות)");
                     }
                 }
                 else

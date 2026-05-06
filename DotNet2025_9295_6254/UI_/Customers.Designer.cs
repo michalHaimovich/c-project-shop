@@ -64,11 +64,11 @@
             IDdelete = new TextBox();
             label10 = new Label();
             panelShowAll = new Panel();
+            filterByClub = new Button();
             closeShowAll = new Button();
             labelFilter = new Label();
             filterTextBox = new TextBox();
             dataGridViewCustomers = new DataGridView();
-            filterByClub = new Button();
             panel1.SuspendLayout();
             panelID.SuspendLayout();
             panelUpdate.SuspendLayout();
@@ -448,8 +448,18 @@
             panelShowAll.Location = new Point(20, 77);
             panelShowAll.Margin = new Padding(4, 5, 4, 5);
             panelShowAll.Name = "panelShowAll";
-            panelShowAll.Size = new Size(821, 492);
+            panelShowAll.Size = new Size(809, 442);
             panelShowAll.TabIndex = 11;
+            // 
+            // filterByClub
+            // 
+            filterByClub.Location = new Point(356, 17);
+            filterByClub.Name = "filterByClub";
+            filterByClub.Size = new Size(256, 34);
+            filterByClub.TabIndex = 4;
+            filterByClub.Text = "only club members";
+            filterByClub.UseVisualStyleBackColor = true;
+            filterByClub.Click += filterByClub_Click;
             // 
             // closeShowAll
             // 
@@ -492,16 +502,6 @@
             dataGridViewCustomers.RowHeadersWidth = 62;
             dataGridViewCustomers.Size = new Size(767, 368);
             dataGridViewCustomers.TabIndex = 0;
-            // 
-            // filterByClub
-            // 
-            filterByClub.Location = new Point(356, 17);
-            filterByClub.Name = "filterByClub";
-            filterByClub.Size = new Size(256, 34);
-            filterByClub.TabIndex = 4;
-            filterByClub.Text = "only club members";
-            filterByClub.UseVisualStyleBackColor = true;
-            filterByClub.Click += filterByClub_Click;
             // 
             // Customers
             // 

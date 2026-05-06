@@ -120,8 +120,6 @@ namespace UI_
         {
             ClearUpdatePanel();
             panelUpdate.Visible = true;
-            // Focus on ID field so user enters ID first
-            UpID.Focus();
         }
 
         private void deleteCustomer_Click(object sender, EventArgs e)

@@ -120,6 +120,8 @@ namespace UI_
         {
             ClearUpdatePanel();
             panelUpdate.Visible = true;
+            // Focus on ID field so user enters ID first
+            UpID.Focus();
         }
 
         private void deleteCustomer_Click(object sender, EventArgs e)
@@ -194,7 +196,7 @@ namespace UI_
                         Name = UpName.Text,
                         Phone = UpPhone.Text,
                         Address = UpAdress.Text,
-                        IsClubMember = checkBox2.CheckState == CheckState.Checked
+                        IsClubMember = checkBox2.Checked
                     });
                     MessageBox.Show("Client updated successfully!");
                     panelUpdate.Visible = false;
@@ -206,7 +208,7 @@ namespace UI_
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error creating client: {ex.Message}");
+                    MessageBox.Show($"Error updating client: {ex.Message}");
                 }
 
             }
@@ -219,7 +221,7 @@ namespace UI_
 
         private void DeleteConfirm_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(IDdelete.Text))
+            if (string.IsNullOrWhiteSpace(IDdelete.Text))
             {
                 MessageBox.Show("Please enter client ID");
             }
@@ -272,6 +274,28 @@ namespace UI_
         private void closeShowAll_Click(object sender, EventArgs e)
         {
             panelShowAll.Visible = false;
+        }
+
+        private void panelShowAll_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void filterByClub_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Func<BO.Client, bool> clubMemberFilter = c => c.IsClubMember;
+                var allClients = bl.IClient.GetAll(clubMemberFilter).ToList();
+                var filteredClients = allClients
+                    .Where(c => c.IsClubMember)
+                    .ToList();
+                dataGridViewCustomers.DataSource = filteredClients;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error filtering clients: {ex.Message}");
+            }
         }
     }
 }

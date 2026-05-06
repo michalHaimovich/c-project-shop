@@ -91,6 +91,20 @@ namespace BlImplementation
             }
         }
 
+        IEnumerable<Client> IClient.GetAll(Func<Client, bool> filter)
+        {
+            try
+            {
+                var dalCustomers = _dal.Customer.ReadAll();
+                var boClients = dalCustomers.Select(c => c.convert());
+                return boClients.Where(filter).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new BO.BlInvalidInputException($"Failed to get clients with filter: {ex.Message}", ex);
+            }
+        }
+
         Client? IClient.Read(Func<Client, bool> filter)
         {
             try

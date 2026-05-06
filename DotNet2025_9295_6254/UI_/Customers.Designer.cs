@@ -64,10 +64,11 @@
             IDdelete = new TextBox();
             label10 = new Label();
             panelShowAll = new Panel();
-            dataGridViewCustomers = new DataGridView();
-            filterTextBox = new TextBox();
-            labelFilter = new Label();
             closeShowAll = new Button();
+            labelFilter = new Label();
+            filterTextBox = new TextBox();
+            dataGridViewCustomers = new DataGridView();
+            filterByClub = new Button();
             panel1.SuspendLayout();
             panelID.SuspendLayout();
             panelUpdate.SuspendLayout();
@@ -439,45 +440,16 @@
             // 
             // panelShowAll
             // 
+            panelShowAll.Controls.Add(filterByClub);
             panelShowAll.Controls.Add(closeShowAll);
             panelShowAll.Controls.Add(labelFilter);
             panelShowAll.Controls.Add(filterTextBox);
             panelShowAll.Controls.Add(dataGridViewCustomers);
-            panelShowAll.Location = new Point(44, 77);
+            panelShowAll.Location = new Point(20, 77);
             panelShowAll.Margin = new Padding(4, 5, 4, 5);
             panelShowAll.Name = "panelShowAll";
-            panelShowAll.Size = new Size(797, 429);
+            panelShowAll.Size = new Size(821, 492);
             panelShowAll.TabIndex = 11;
-            // 
-            // dataGridViewCustomers
-            // 
-            dataGridViewCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCustomers.Location = new Point(15, 55);
-            dataGridViewCustomers.Margin = new Padding(4, 5, 4, 5);
-            dataGridViewCustomers.Name = "dataGridViewCustomers";
-            dataGridViewCustomers.ReadOnly = true;
-            dataGridViewCustomers.Size = new Size(767, 368);
-            dataGridViewCustomers.TabIndex = 0;
-            // 
-            // filterTextBox
-            // 
-            filterTextBox.Location = new Point(130, 15);
-            filterTextBox.Margin = new Padding(4, 5, 4, 5);
-            filterTextBox.Name = "filterTextBox";
-            filterTextBox.PlaceholderText = "Search by Name";
-            filterTextBox.Size = new Size(550, 31);
-            filterTextBox.TabIndex = 1;
-            filterTextBox.TextChanged += filterTextBox_TextChanged;
-            // 
-            // labelFilter
-            // 
-            labelFilter.AutoSize = true;
-            labelFilter.Location = new Point(15, 20);
-            labelFilter.Margin = new Padding(4, 0, 4, 0);
-            labelFilter.Name = "labelFilter";
-            labelFilter.Size = new Size(51, 25);
-            labelFilter.TabIndex = 2;
-            labelFilter.Text = "Filter:";
             // 
             // closeShowAll
             // 
@@ -489,6 +461,47 @@
             closeShowAll.Text = "X";
             closeShowAll.UseVisualStyleBackColor = true;
             closeShowAll.Click += closeShowAll_Click;
+            // 
+            // labelFilter
+            // 
+            labelFilter.AutoSize = true;
+            labelFilter.Location = new Point(15, 20);
+            labelFilter.Margin = new Padding(4, 0, 4, 0);
+            labelFilter.Name = "labelFilter";
+            labelFilter.Size = new Size(54, 25);
+            labelFilter.TabIndex = 2;
+            labelFilter.Text = "Filter:";
+            // 
+            // filterTextBox
+            // 
+            filterTextBox.Location = new Point(77, 20);
+            filterTextBox.Margin = new Padding(4, 5, 4, 5);
+            filterTextBox.Name = "filterTextBox";
+            filterTextBox.PlaceholderText = "Search by Name";
+            filterTextBox.Size = new Size(174, 31);
+            filterTextBox.TabIndex = 1;
+            filterTextBox.TextChanged += filterTextBox_TextChanged;
+            // 
+            // dataGridViewCustomers
+            // 
+            dataGridViewCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCustomers.Location = new Point(15, 55);
+            dataGridViewCustomers.Margin = new Padding(4, 5, 4, 5);
+            dataGridViewCustomers.Name = "dataGridViewCustomers";
+            dataGridViewCustomers.ReadOnly = true;
+            dataGridViewCustomers.RowHeadersWidth = 62;
+            dataGridViewCustomers.Size = new Size(767, 368);
+            dataGridViewCustomers.TabIndex = 0;
+            // 
+            // filterByClub
+            // 
+            filterByClub.Location = new Point(356, 17);
+            filterByClub.Name = "filterByClub";
+            filterByClub.Size = new Size(256, 34);
+            filterByClub.TabIndex = 4;
+            filterByClub.Text = "only club members";
+            filterByClub.UseVisualStyleBackColor = true;
+            filterByClub.Click += filterByClub_Click;
             // 
             // Customers
             // 
@@ -565,5 +578,6 @@
         private TextBox filterTextBox;
         private Label labelFilter;
         private Button closeShowAll;
+        private Button filterByClub;
     }
 }

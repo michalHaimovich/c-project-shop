@@ -10,6 +10,7 @@ public interface IClient
     void Update(Client client);
     void Delete(int id);
     bool Exists(int id);
+    IEnumerable<Client> GetAll(Func<Client, bool> filter);
 }
 
 

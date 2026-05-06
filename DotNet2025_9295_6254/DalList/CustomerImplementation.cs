@@ -37,7 +37,7 @@ public class CustomerImplementation : ICustomer
         Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, " called create with " + customer);
 
         // צריך לעשות רק ב customer
-        bool exist = sales.Any(c => c.id == customer.id);
+        bool exist = customers.Any(c => c.id == customer.id);
         if (exist)
         {
             Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "exception id already exists");

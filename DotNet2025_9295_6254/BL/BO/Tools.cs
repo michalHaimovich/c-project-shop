@@ -54,7 +54,7 @@ namespace BO
                 Name = customer.customer_name,
                 Address = customer.customer_adress,
                 Phone = customer.customer_phon,
-                IsClubMember = customer. isClubMember
+                IsClubMember = customer.isClubMember
             };
         }
 
@@ -93,7 +93,8 @@ namespace BO
                 id = client.Id,
                 customer_name = client.Name,
                 customer_adress = client.Address,
-                customer_phon = client.Phone
+                customer_phon = client.Phone,
+                isClubMember = client.IsClubMember
             };
         }
 

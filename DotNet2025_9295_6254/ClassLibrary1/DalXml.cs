@@ -13,7 +13,10 @@ namespace Dal
 
         private static readonly DalXml instance = new DalXml();
 
-        public static readonly IDal Instance = instance;
+        public static DalXml Instance
+        {
+            get { return instance; }
+        }
 
         public ISale Sale => new SaleImplementation();
 

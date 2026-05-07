@@ -17,6 +17,7 @@
     <ProjectReference Include="..\BL\BL.csproj" />
     <ProjectReference Include="..\ClassLibrary1\DalXml.csproj" />
     <ProjectReference Include="..\DalList\DalList.csproj" />
+    <ProjectReference Include="..\DalTest\DalTest.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,36 +13,55 @@ namespace Dal
 {
     internal class CustomerImplementation : ICustomer
     {
-       private static string fileName = "customers";
+        private static string fileName = "../xml/customers.xml";
         private XmlSerializer customers = new XmlSerializer(typeof(List<Customer>));
-        private List<Customer> customersList = (new XmlSerializer(typeof(List<Customer>))).Deserialize(new StreamReader(fileName)) as List<Customer>;
+        private List<Customer> customersList;
+
+        public CustomerImplementation()
+        {
+            try
+            {
+                if (File.Exists(fileName))
+                {
+                    using (StreamReader reader = new StreamReader(fileName))
+                    {
+                        var loaded = customers.Deserialize(reader) as List<Customer>;
+                        customersList = loaded ?? new List<Customer>();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("File does not exist, creating new list");
+                    customersList = new List<Customer>();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading customers: {ex.Message}");
+                customersList = new List<Customer>();
+            }
+        }
 
         public int Create(Customer item)
         {
-            using(StreamWriter writer = new StreamWriter(fileName))
-            {
-                
-                customersList.Add(item);
-                customers.Serialize(writer, customersList);
-            }
+            customersList.Add(item);
+            SaveToFile();
             return item.id;
         }
 
         public void Delete(int id)
         {
-            using (StreamWriter writer = new StreamWriter(fileName))
+            Customer c = customersList.FirstOrDefault(x => x.id == id);
+            if (c != null)
             {
-                
-                Customer c = customersList.Where(x => x.id == id).FirstOrDefault();
-                if(c != null)
-                    customersList.Remove(c);
-                customers.Serialize(writer, customersList);
+                customersList.Remove(c);
+                SaveToFile();
             }
         }
 
         public Customer Read(int id)
         {
-            return customersList.Where(x => x.id == id).FirstOrDefault();
+            return customersList.FirstOrDefault(x => x.id == id);
         }
 
         public Customer Read(Func<Customer, bool> filter)
@@ -50,24 +69,37 @@ namespace Dal
             return ReadAll(filter).FirstOrDefault();
         }
 
-        public List<Customer> ReadAll(Func<Customer, bool>? filter)
+        public List<Customer> ReadAll(Func<Customer, bool>? filter = null)
         {
-                if (filter == null)
-                    return customersList;
-                return customersList.Where(filter).ToList();
+            if (filter == null)
+                return customersList.ToList();
+            return customersList.Where(filter).ToList();
         }
 
         public void Update(Customer item)
         {
-            using (StreamWriter writer = new StreamWriter(fileName))
+            Customer c = customersList.FirstOrDefault(x => x.id == item.id);
+            if (c != null)
             {
-                Customer c = customersList.Where(x => x.id == item.id).FirstOrDefault();
-                if (c != null)
+                customersList.Remove(c);
+                customersList.Add(item);
+                SaveToFile();
+            }
+        }
+
+        private void SaveToFile()
+        {
+            try
+            { 
+                using (StreamWriter writer = new StreamWriter(fileName))
                 {
-                    customersList.Remove(c);
-                    customersList.Add(item);
+                    customers.Serialize(writer, customersList);
                 }
-                customers.Serialize(writer, customersList);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving to file: {ex.Message}");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
             }
         }
     }

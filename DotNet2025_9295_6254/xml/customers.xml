@@ -1,4 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfCustomer>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <id>4</id>
+    <customer_name>michal</customer_name>
+    <customer_adress>hh</customer_adress>
+    <customer_phon>055</customer_phon>
+    <isClubMember>true</isClubMember>
+  </Customer>
+  <Customer>
+    <id>6254</id>
+    <customer_name>Michal</customer_name>
+    <customer_adress>Modiin Ilit</customer_adress>
+    <customer_phon>0556781551</customer_phon>
+    <isClubMember>true</isClubMember>
+  </Customer>
+  <Customer>
+    <id>1023</id>
+    <customer_name>David</customer_name>
+    <customer_adress>Tel Aviv</customer_adress>
+    <customer_phon>0541234567</customer_phon>
+    <isClubMember>false</isClubMember>
+  </Customer>
+  <Customer>
+    <id>4872</id>
+    <customer_name>Sarah</customer_name>
+    <customer_adress>Jerusalem</customer_adress>
+    <customer_phon>0539876543</customer_phon>
+    <isClubMember>false</isClubMember>
+  </Customer>
+  <Customer>
+    <id>3456</id>
+    <customer_name>Yossi</customer_name>
+    <customer_adress>Haifa</customer_adress>
+    <customer_phon>0523456789</customer_phon>
+    <isClubMember>true</isClubMember>
+  </Customer>
+  <Customer>
+    <id>7890</id>
+    <customer_name>Tamar</customer_name>
+    <customer_adress>Beersheba</customer_adress>
+    <customer_phon>0512345678</customer_phon>
+    <isClubMember>false</isClubMember>
+  </Customer>
+  <Customer>
+    <id>2345</id>
+    <customer_name>Omer</customer_name>
+    <customer_adress>Eilat</customer_adress>
+    <customer_phon>0587654321</customer_phon>
+    <isClubMember>false</isClubMember>
+  </Customer>
+  <Customer>
+    <id>5678</id>
+    <customer_name>Noa</customer_name>
+    <customer_adress>Raanana</customer_adress>
+    <customer_phon>0578901234</customer_phon>
+    <isClubMember>true</isClubMember>
+  </Customer>
+  <Customer>
+    <id>1357</id>
+    <customer_name>Gilad</customer_name>
+    <customer_adress>Petah Tikva</customer_adress>
+    <customer_phon>0501234567</customer_phon>
+    <isClubMember>false</isClubMember>
+  </Customer>
+  <Customer>
+    <id>2468</id>
+    <customer_name>Amit</customer_name>
+    <customer_adress>Kfar Saba</customer_adress>
+    <customer_phon>0598765432</customer_phon>
+    <isClubMember>false</isClubMember>
+  </Customer>
+  <Customer>
+    <id>3690</id>
+    <customer_name>Liraz</customer_name>
+    <customer_adress>Ashdod</customer_adress>
+    <customer_phon>0567890123</customer_phon>
+    <isClubMember>true</isClubMember>
+  </Customer>
 </ArrayOfCustomer>
-

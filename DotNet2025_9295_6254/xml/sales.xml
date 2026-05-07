@@ -1,4 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfSale>
-
+  <sale>
+    <id>41</id>
+    <product_id>1029</product_id>
+    <amount_to_sale>5</amount_to_sale>
+    <count_to_sale>1250</count_to_sale>
+    <to_club>true</to_club>
+    <start_date>2026-05-06T14:17:21.4965757+03:00</start_date>
+    <end_date>2026-05-17T14:17:21.5013555+03:00</end_date>
+  </sale>
+  <sale>
+    <id>42</id>
+    <product_id>1029</product_id>
+    <amount_to_sale>30</amount_to_sale>
+    <count_to_sale>1000</count_to_sale>
+    <to_club>false</to_club>
+    <start_date>2026-05-06T14:17:21.5144014+03:00</start_date>
+    <end_date>2026-05-12T14:17:21.5144105+03:00</end_date>
+  </sale>
+  <sale>
+    <id>43</id>
+    <product_id>1031</product_id>
+    <amount_to_sale>20</amount_to_sale>
+    <count_to_sale>1</count_to_sale>
+    <to_club>true</to_club>
+    <start_date>2026-05-09T14:17:21.5338316+03:00</start_date>
+    <end_date>2026-05-19T14:17:21.5338401+03:00</end_date>
+  </sale>
+  <sale>
+    <id>44</id>
+    <product_id>1032</product_id>
+    <amount_to_sale>100</amount_to_sale>
+    <count_to_sale>10</count_to_sale>
+    <to_club>false</to_club>
+    <start_date>2026-05-07T14:17:21.5510658+03:00</start_date>
+    <end_date>2026-05-22T14:17:21.5510735+03:00</end_date>
+  </sale>
+  <sale>
+    <id>45</id>
+    <product_id>1033</product_id>
+    <amount_to_sale>15</amount_to_sale>
+    <count_to_sale>2</count_to_sale>
+    <to_club>true</to_club>
+    <start_date>2026-05-08T14:17:21.56987+03:00</start_date>
+    <end_date>2026-05-10T14:17:21.5698787+03:00</end_date>
+  </sale>
 </ArrayOfSale>

@@ -12,7 +12,7 @@ namespace Dal
     internal class SaleImplementation : ISale
     {
       
-        private static string fileName = "sales";
+        private static string fileName = "../xml/sales.xml";
         private string SALE = "sale";
         private string ID = "id";
         private string PRODUCTID = "product_id";

@@ -1,5 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfProduct>
-	
+<ArrayOfProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Product>
+    <id>1009</id>
+    <category>ENTERTAINMENT</category>
+    <product_name>Laptop</product_name>
+    <price>1500</price>
+    <amount_in_stock>200</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1010</id>
+    <category>PERSONAL_CARE</category>
+    <product_name>phone</product_name>
+    <price>700</price>
+    <amount_in_stock>50</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1011</id>
+    <category>ENTERTAINMENT</category>
+    <product_name>Headphones</product_name>
+    <price>150</price>
+    <amount_in_stock>100</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1012</id>
+    <category>PERSONAL_CARE</category>
+    <product_name>Smartwatch</product_name>
+    <price>300</price>
+    <amount_in_stock>30</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1013</id>
+    <category>ENTERTAINMENT</category>
+    <product_name>Tablet</product_name>
+    <price>400</price>
+    <amount_in_stock>40</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1014</id>
+    <category>PERSONAL_CARE</category>
+    <product_name>Monitor</product_name>
+    <price>250</price>
+    <amount_in_stock>15</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1015</id>
+    <category>PERSONAL_CARE</category>
+    <product_name>Keyboard</product_name>
+    <price>75</price>
+    <amount_in_stock>80</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1016</id>
+    <category>PERSONAL_CARE</category>
+    <product_name>Mouse</product_name>
+    <price>25</price>
+    <amount_in_stock>200</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1017</id>
+    <category>PERSONAL_CARE</category>
+    <product_name>Printer</product_name>
+    <price>200</price>
+    <amount_in_stock>10</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1018</id>
+    <category>CLEANING</category>
+    <product_name>External Hard Drive</product_name>
+    <price>120</price>
+    <amount_in_stock>25</amount_in_stock>
+  </Product>
 </ArrayOfProduct>
-

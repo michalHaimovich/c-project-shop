@@ -195,7 +195,7 @@
             // 
             // lblDetailQty
             // 
-            lblDetailQty.Location = new Point(10, 70);
+            lblDetailQty.Location = new Point(10, 70);   
             lblDetailQty.Name = "lblDetailQty";
             lblDetailQty.Size = new Size(240, 20);
             lblDetailQty.TabIndex = 2;

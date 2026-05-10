@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Product>
-    <id>1009</id>
-    <category>ENTERTAINMENT</category>
-    <product_name>Laptop</product_name>
-    <price>1500</price>
-    <amount_in_stock>200</amount_in_stock>
-  </Product>
-  <Product>
     <id>1010</id>
     <category>PERSONAL_CARE</category>
     <product_name>phone</product_name>
@@ -69,5 +62,12 @@
     <product_name>External Hard Drive</product_name>
     <price>120</price>
     <amount_in_stock>25</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1009</id>
+    <category>PERSONAL_CARE</category>
+    <product_name>Laptop</product_name>
+    <price>1500</price>
+    <amount_in_stock>300</amount_in_stock>
   </Product>
 </ArrayOfProduct>

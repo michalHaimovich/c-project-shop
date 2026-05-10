@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BlApi;
+using BO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +14,35 @@ namespace UI_
 {
     public partial class Cashier : Form
     {
+        IBl bl = Factory.Get();
         public Cashier()
         {
             InitializeComponent();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int id = int.Parse(customerId.Text);
+                Client c = bl.IClient.Get(id);
+                
+            }
+            catch(FormatException) {
+                MessageBox.Show("Id must be a valid number");
+            }
+            catch (BlDoesNotExistException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            
+
         }
     }
 }

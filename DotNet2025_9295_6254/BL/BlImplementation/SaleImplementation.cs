@@ -12,11 +12,11 @@ namespace BlImplementation
     {
             private DalApi.IDal _dal = DalApi.Factory.Get;
             
-   public void Add(BO.Sale sale)
+   public int Create(BO.Sale sale)
             {
           try
             {
-              _dal.Sale.Create(sale.convert());
+              return _dal.Sale.Create(sale.convert());
          }
       catch (DO.DalAlreadyExistsException ex)
                 {
@@ -60,13 +60,27 @@ namespace BlImplementation
               throw new BO.BlInvalidInputException($"Failed to get sale with ID {id}: {ex.Message}", ex);
      }
         }
-
-            public IEnumerable<BO.Sale> GetAll()
+          public BO.Sale? Get(Func<BO.Sale, bool> filter)
+        {
+            try
+            {
+                var dalSales = _dal.Sale.ReadAll();
+                var boSales = dalSales.Select(s => s.convert());
+                return boSales.FirstOrDefault(filter);
+            }
+            catch (Exception ex)
+            {
+                throw new BO.BlInvalidInputException($"Failed to get sale with filter: {ex.Message}", ex);
+            }
+        }
+            public IEnumerable<BO.Sale> GetAll(Func<BO.Sale, bool> filter)
           {
       try
           {
                     var dalSales = _dal.Sale.ReadAll();
-                  return dalSales.Select(s => s.convert()).ToList();
+                  if (filter == null)
+                      return dalSales.Select(s => s.convert()).ToList();
+                  return dalSales.Select(s => s.convert()).Where(filter).ToList();
      }
             catch (Exception ex)
              {

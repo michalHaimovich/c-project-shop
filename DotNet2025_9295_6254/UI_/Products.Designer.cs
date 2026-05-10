@@ -5,20 +5,20 @@ namespace UI_
         /// <summary>
         /// Required designer variable.
         /// </summary>
-private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-    /// <param name="disposing">true if managed resources></param>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-  if (disposing && (components != null))
-     {
-       components.Dispose();
-         }
-          base.Dispose(disposing);
+     if (disposing && (components != null))
+         {
+    components.Dispose();
         }
+            base.Dispose(disposing);
+ }
 
         #region Windows Form Designer generated code
 
@@ -69,6 +69,7 @@ private System.ComponentModel.IContainer components = null;
             labelFilter = new Label();
             filterTextBox = new TextBox();
             dataGridViewProducts = new DataGridView();
+            label9 = new Label();
             panel1.SuspendLayout();
             panelID.SuspendLayout();
             panelUpdate.SuspendLayout();
@@ -226,7 +227,7 @@ private System.ComponentModel.IContainer components = null;
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(100, 153);
+            label1.Location = new Point(8, 183);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(84, 25);
@@ -274,6 +275,7 @@ private System.ComponentModel.IContainer components = null;
             // 
             // panelUpdate
             // 
+            panelUpdate.Controls.Add(label9);
             panelUpdate.Controls.Add(categoryComboBoxUpdate);
             panelUpdate.Controls.Add(upStockTextBox);
             panelUpdate.Controls.Add(upPriceTextBox);
@@ -293,7 +295,7 @@ private System.ComponentModel.IContainer components = null;
             // categoryComboBoxUpdate
             // 
             categoryComboBoxUpdate.FormattingEnabled = true;
-            categoryComboBoxUpdate.Location = new Point(100, 183);
+            categoryComboBoxUpdate.Location = new Point(100, 200);
             categoryComboBoxUpdate.Margin = new Padding(4, 5, 4, 5);
             categoryComboBoxUpdate.Name = "categoryComboBoxUpdate";
             categoryComboBoxUpdate.Size = new Size(171, 33);
@@ -325,7 +327,7 @@ private System.ComponentModel.IContainer components = null;
             // 
             // UpdateConfirm
             // 
-            UpdateConfirm.Location = new Point(104, 233);
+            UpdateConfirm.Location = new Point(89, 242);
             UpdateConfirm.Margin = new Padding(4, 5, 4, 5);
             UpdateConfirm.Name = "UpdateConfirm";
             UpdateConfirm.Size = new Size(107, 38);
@@ -337,7 +339,7 @@ private System.ComponentModel.IContainer components = null;
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(100, 153);
+            label8.Location = new Point(8, 203);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Size = new Size(84, 25);
@@ -376,7 +378,7 @@ private System.ComponentModel.IContainer components = null;
             // 
             // upIdTextBox
             // 
-            upIdTextBox.Location = new Point(4, 20);
+            upIdTextBox.Location = new Point(182, 20);
             upIdTextBox.Margin = new Padding(4, 5, 4, 5);
             upIdTextBox.Name = "upIdTextBox";
             upIdTextBox.Size = new Size(84, 31);
@@ -421,7 +423,7 @@ private System.ComponentModel.IContainer components = null;
             panelShowAll.Controls.Add(labelFilter);
             panelShowAll.Controls.Add(filterTextBox);
             panelShowAll.Controls.Add(dataGridViewProducts);
-            panelShowAll.Location = new Point(20, 77);
+            panelShowAll.Location = new Point(13, 67);
             panelShowAll.Margin = new Padding(4, 5, 4, 5);
             panelShowAll.Name = "panelShowAll";
             panelShowAll.Size = new Size(804, 440);
@@ -455,6 +457,7 @@ private System.ComponentModel.IContainer components = null;
             categoryFilterComboBox.Name = "categoryFilterComboBox";
             categoryFilterComboBox.Size = new Size(174, 33);
             categoryFilterComboBox.TabIndex = 6;
+            categoryFilterComboBox.SelectedIndexChanged += categoryFilterComboBox_SelectedIndexChanged;
             // 
             // closeShowAll
             // 
@@ -470,7 +473,7 @@ private System.ComponentModel.IContainer components = null;
             // labelFilter
             // 
             labelFilter.AutoSize = true;
-            labelFilter.Location = new Point(14, 20);
+            labelFilter.Location = new Point(31, 15);
             labelFilter.Margin = new Padding(4, 0, 4, 0);
             labelFilter.Name = "labelFilter";
             labelFilter.Size = new Size(54, 25);
@@ -497,6 +500,16 @@ private System.ComponentModel.IContainer components = null;
             dataGridViewProducts.RowHeadersWidth = 62;
             dataGridViewProducts.Size = new Size(767, 335);
             dataGridViewProducts.TabIndex = 0;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(115, 19);
+            label9.Margin = new Padding(4, 0, 4, 0);
+            label9.Name = "label9";
+            label9.Size = new Size(30, 25);
+            label9.TabIndex = 11;
+            label9.Text = "ID";
             // 
             // Products
             // 
@@ -534,45 +547,46 @@ private System.ComponentModel.IContainer components = null;
         #endregion
 
         private Button showProduct;
-   private Button deleteProduct;
-  private Button showAllProducts;
+  private Button deleteProduct;
+        private Button showAllProducts;
         private Button createProduct;
-        private Button updateProduct;
-  private Panel panel1;
-      private Label label1;
-     private TextBox nameTextBox;
+     private Button updateProduct;
+        private Panel panel1;
+        private Label label1;
+        private TextBox nameTextBox;
         private Label label4;
         private Label label3;
- private TextBox priceTextBox;
-  private TextBox stockTextBox;
-        private ComboBox categoryComboBox;
- private Button confirmCreate;
-  private Label label2;
+        private TextBox priceTextBox;
+        private TextBox stockTextBox;
+     private ComboBox categoryComboBox;
+        private Button confirmCreate;
+     private Label label2;
         private Panel panelID;
         private TextBox idTextBox;
-        private Button confirmAction;
+ private Button confirmAction;
         private Panel panelUpdate;
         private TextBox upNameTextBox;
-        private Label label5;
-        private Label label6;
-        private TextBox upPriceTextBox;
+      private Label label5;
+     private Label label6;
+      private TextBox upPriceTextBox;
         private Label label7;
-      private TextBox upStockTextBox;
+        private TextBox upStockTextBox;
         private Label label8;
         private Button UpdateConfirm;
-   private TextBox upIdTextBox;
-private Panel panelDelete;
-   private Button DeleteConfirm;
+  private TextBox upIdTextBox;
+ private Panel panelDelete;
+        private Button DeleteConfirm;
         private TextBox idDeleteTextBox;
-     private Panel panelShowAll;
-     private DataGridView dataGridViewProducts;
-private TextBox filterTextBox;
+        private Panel panelShowAll;
+        private DataGridView dataGridViewProducts;
+        private TextBox filterTextBox;
         private Label labelFilter;
-     private Button closeShowAll;
-        private Label labelID;
-  private Button filterByCategory;
-      private ComboBox categoryFilterComboBox;
+   private Button closeShowAll;
+    private Label labelID;
+      private Button filterByCategory;
+        private ComboBox categoryFilterComboBox;
         private Label label10;
         private ComboBox categoryComboBoxUpdate;
+        private Label label9;
     }
 }

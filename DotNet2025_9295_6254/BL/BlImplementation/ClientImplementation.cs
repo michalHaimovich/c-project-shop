@@ -12,11 +12,11 @@ namespace BlImplementation
     {
         private DalApi.IDal _dal = DalApi.Factory.Get;
 
-        void IClient.Create(Client client)
+        int Create(Client client)
         {
             try
             {
-                _dal.Customer.Create(client.convert());
+                return _dal.Customer.Create(client.convert());
             }
             catch (DO.DalAlreadyExistsException ex)
             {
@@ -28,7 +28,12 @@ namespace BlImplementation
             }
         }
 
-        void IClient.Delete(int id)
+        int Icrud<Client>.Create(Client item)
+        {
+            return Create(item);
+        }
+
+        void Delete(int id)
         {
             try
             {
@@ -44,7 +49,12 @@ namespace BlImplementation
             }
         }
 
-        bool IClient.Exists(int id)
+        void Icrud<Client>.Delete(int id)
+        {
+            Delete(id);
+        }
+
+        bool Exists(int id)
         {
             try
             {
@@ -61,7 +71,12 @@ namespace BlImplementation
             }
         }
 
-        Client? IClient.Get(int id)
+        bool IClient.Exists(int id)
+        {
+            return Exists(id);
+        }
+
+        Client? Get(int id)
         {
             try
             {
@@ -78,7 +93,17 @@ namespace BlImplementation
             }
         }
 
-        IEnumerable<Client> IClient.GetAll()
+        Client Icrud<Client>.Get(int id)
+        {
+            return Get(id);
+        }
+
+        Client Icrud<Client>.Get(Func<Client, bool> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<Client> GetAll()
         {
             try
             {
@@ -91,7 +116,7 @@ namespace BlImplementation
             }
         }
 
-        IEnumerable<Client> IClient.GetAll(Func<Client, bool> filter)
+        IEnumerable<Client> GetAll(Func<Client, bool> filter)
         {
             try
             {
@@ -105,7 +130,12 @@ namespace BlImplementation
             }
         }
 
-        Client? IClient.Read(Func<Client, bool> filter)
+        IEnumerable<Client> Icrud<Client>.GetAll(Func<Client, bool> filter)
+        {
+            return GetAll(filter);
+        }
+
+        Client? Read(Func<Client, bool> filter)
         {
             try
             {
@@ -119,7 +149,7 @@ namespace BlImplementation
             }
         }
 
-        void IClient.Update(Client client)
+        void Update(Client client)
         {
             try
             {
@@ -133,6 +163,11 @@ namespace BlImplementation
             {
                 throw new BO.BlInvalidInputException($"Failed to update client with ID {client.Id}: {ex.Message}", ex);
             }
+        }
+
+        void Icrud<Client>.Update(Client item)
+        {
+            Update(item);
         }
     }
 }

@@ -199,7 +199,7 @@
             lblDetailQty.Name = "lblDetailQty";
             lblDetailQty.Size = new Size(240, 20);
             lblDetailQty.TabIndex = 2;
-            lblDetailQty.Text = "Quantity:";
+            lblDetailQty.Text = "Quantity:"; 
             // 
             // lblDetailFinal
             // 

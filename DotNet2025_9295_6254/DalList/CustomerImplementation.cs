@@ -12,7 +12,7 @@ public class CustomerImplementation : ICustomer
 
     public Customer Read(int id)
     {
-        Tools.LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read by id with: " + id);
+        LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read by id with: " + id);
 
         var q = from c in customers
                 where c.id == id

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using BlApi;
+using BO;
+using DalApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlApi;
-using BO;
+
 
 namespace BlImplementation
 {
@@ -12,7 +14,7 @@ namespace BlImplementation
     {
         private DalApi.IDal _dal = DalApi.Factory.Get;
 
-        int Create(Client client)
+        int Icrud<Client>.Create(Client client)
         {
             try
             {
@@ -28,12 +30,8 @@ namespace BlImplementation
             }
         }
 
-        int Icrud<Client>.Create(Client item)
-        {
-            return Create(item);
-        }
-
-        void Delete(int id)
+   
+        void Icrud<Client>.Delete(int id)
         {
             try
             {
@@ -49,12 +47,8 @@ namespace BlImplementation
             }
         }
 
-        void Icrud<Client>.Delete(int id)
-        {
-            Delete(id);
-        }
 
-        bool Exists(int id)
+        bool IClient.Exists(int id)
         {
             try
             {
@@ -71,12 +65,8 @@ namespace BlImplementation
             }
         }
 
-        bool IClient.Exists(int id)
-        {
-            return Exists(id);
-        }
 
-        Client? Get(int id)
+        Client? Icrud<Client>.Get(int id)
         {
             try
             {
@@ -93,14 +83,11 @@ namespace BlImplementation
             }
         }
 
-        Client Icrud<Client>.Get(int id)
-        {
-            return Get(id);
-        }
+    
 
         Client Icrud<Client>.Get(Func<Client, bool> filter)
         {
-            throw new NotImplementedException();
+           return GetAll(filter).FirstOrDefault() ?? throw new BO.BlDoesNotExistException("No client found matching the provided filter.");
         }
 
      
@@ -126,21 +113,7 @@ namespace BlImplementation
             return GetAll(filter);
         }
 
-        Client? Read(Func<Client, bool> filter)
-        {
-            try
-            {
-                var allClients = _dal.Customer.ReadAll();
-                var boClients = allClients.Select(c => c.convert());
-                return boClients.FirstOrDefault(filter);
-            }
-            catch (Exception ex)
-            {
-                throw new BO.BlInvalidInputException($"Failed to read client with filter: {ex.Message}", ex);
-            }
-        }
-
-        void Update(Client client)
+        void Icrud<Client>.Update(Client client)
         {
             try
             {
@@ -154,11 +127,6 @@ namespace BlImplementation
             {
                 throw new BO.BlInvalidInputException($"Failed to update client with ID {client.Id}: {ex.Message}", ex);
             }
-        }
-
-        void Icrud<Client>.Update(Client item)
-        {
-            Update(item);
         }
     }
 }

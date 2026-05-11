@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Product>
-    <id>1012</id>
-    <category>PERSONAL_CARE</category>
-    <product_name>Smartwatch</product_name>
-    <price>300</price>
-    <amount_in_stock>30</amount_in_stock>
-  </Product>
-  <Product>
-    <id>1013</id>
-    <category>ENTERTAINMENT</category>
-    <product_name>Tablet</product_name>
-    <price>400</price>
-    <amount_in_stock>40</amount_in_stock>
-  </Product>
-  <Product>
     <id>1025</id>
     <category>PERSONAL_CARE</category>
     <product_name>Keyboard</product_name>
@@ -67,7 +53,21 @@
     <id>1011</id>
     <category>ENTERTAINMENT</category>
     <product_name>headphones</product_name>
-    <price>130</price>
-    <amount_in_stock>0</amount_in_stock>
+    <price>150</price>
+    <amount_in_stock>100</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1012</id>
+    <category>PERSONAL_CARE</category>
+    <product_name>Smartwatch</product_name>
+    <price>300</price>
+    <amount_in_stock>4</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1013</id>
+    <category>ENTERTAINMENT</category>
+    <product_name>Tablet</product_name>
+    <price>400</price>
+    <amount_in_stock>14</amount_in_stock>
   </Product>
 </ArrayOfProduct>

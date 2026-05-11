@@ -12,12 +12,12 @@ namespace BlImplementation
     {
         private DalApi.IDal _dal = DalApi.Factory.Get;
 
-        public BO.Product? Get(int id)
+        public BO.Product Get(int id)
         {
             try
             {
                 var dalProduct = _dal.Product.Read(id);
-                return dalProduct?.convert();
+                return dalProduct.convert();
             }
             catch (DO.DalDoesNotExistException ex)
             {
@@ -104,12 +104,6 @@ namespace BlImplementation
             {
                 throw new BO.BlInvalidInputException($"Failed to delete product with ID {id}: {ex.Message}", ex);
             }
-        }
-
-        public void GetActiveSalesForProduct(BO.ProductInOrder productInOrder, bool isPreferredClient)
-        {
-            // Implementation for getting active sales for product
-            throw new NotImplementedException();
         }
     }
 }

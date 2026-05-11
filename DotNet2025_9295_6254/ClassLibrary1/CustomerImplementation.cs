@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.Marshalling;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿
 using DalApi;
 using DO;
-
+using System.Reflection;
+using System.Xml.Serialization;
+using Tools;
 namespace Dal
 {
     internal class CustomerImplementation : ICustomer
@@ -44,33 +39,61 @@ namespace Dal
 
         public int Create(Customer item)
         {
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called create with: " + item);
+            if (customersList.Any(c => c.id == item.id)) 
+            {
+                LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called create with: " + item +"faild: exists");
+                throw new DalAlreadyExistsException($"Customer with ID {item.id} already exists.");
+            }
             customersList.Add(item);
             SaveToFile();
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "created successfully");
             return item.id;
         }
 
         public void Delete(int id)
         {
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called delete with: " + id);
             Customer c = customersList.FirstOrDefault(x => x.id == id);
             if (c != null)
             {
                 customersList.Remove(c);
                 SaveToFile();
+                LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "deleted successfully");
+                return;
             }
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called delete faild : "+id+" does not exists");
+            throw new DalDoesNotExistException("couldent delete id: "+id+" does not exists");
+
         }
 
         public Customer Read(int id)
         {
-            return customersList.FirstOrDefault(x => x.id == id);
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read with: " + id);
+            Customer c = customersList.FirstOrDefault(x => x.id == id);
+            if (c != null)
+            {
+                return c;
+            }
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read faild : " + id + " does not exists");
+            throw new DalDoesNotExistException($"Customer with ID {id} does not exist.");
         }
 
         public Customer Read(Func<Customer, bool> filter)
         {
-            return ReadAll(filter).FirstOrDefault();
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read by filter ");
+            Customer c = ReadAll(filter).FirstOrDefault();
+            if (c != null)
+            {
+                return c;
+            }
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read faild :  does not exists");
+            throw new DalDoesNotExistException($"Customer with filter does not exist.");
         }
 
         public List<Customer> ReadAll(Func<Customer, bool>? filter = null)
         {
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called read all with filter: " + (filter != null ? filter.ToString() : "null"));
             if (filter == null)
                 return customersList.ToList();
             return customersList.Where(filter).ToList();
@@ -78,13 +101,18 @@ namespace Dal
 
         public void Update(Customer item)
         {
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called update with: " + item);
             Customer c = customersList.FirstOrDefault(x => x.id == item.id);
             if (c != null)
             {
                 customersList.Remove(c);
                 customersList.Add(item);
                 SaveToFile();
+                LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "updated successfully");
+                return;
             }
+            LogManager.WriteLog(MethodBase.GetCurrentMethod().Name, MethodBase.GetCurrentMethod().DeclaringType.FullName, "called update faild : " + item + " does not exists");
+            throw new DalDoesNotExistException($"Customer with ID {item.id} does not exist.");
         }
 
         private void SaveToFile()

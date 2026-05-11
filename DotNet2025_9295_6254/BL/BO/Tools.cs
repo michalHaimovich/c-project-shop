@@ -67,7 +67,7 @@ namespace BO
                 category = (ElectricalApplianceCategory)product.category,
                 Price = product.price,
                 Stock = product.amount_in_stock,
-                Sales = new List<SaleInProduct>()
+                
             };
         }
 

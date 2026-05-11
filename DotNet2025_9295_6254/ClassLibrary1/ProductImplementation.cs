@@ -1,4 +1,6 @@
-﻿using DalApi;
+﻿
+
+using DalApi;
 using DO;
 using System;
 using System.Collections.Generic;
@@ -63,17 +65,17 @@ namespace Dal
         public int Create(Product item)
         {
             int id = Config.GetProductId;
-            productsList.Add(item with { id = id});
+            productsList.Add(item with { id = id });
             SaveToFile();
             return id;
         }
 
         public void Delete(int id)
-        { 
+        {
             Product item = productsList.Find(x => x.id == id);
             if (item == null)
             {
-                throw new DalDoesNotExistException("cannot delete product with id: "+id+ ", does not exists");
+                throw new DalDoesNotExistException("cannot delete product with id: " + id + ", does not exists");
             }
             productsList.Remove(item);
             SaveToFile();
@@ -81,8 +83,8 @@ namespace Dal
 
         public Product Read(int id)
         {
-            Product item = productsList.Find(x=> x.id == id);
-            if(item == null)
+            Product item = productsList.Find(x => x.id == id);
+            if (item == null)
             {
                 throw new DalDoesNotExistException("product with id: " + id + " does not exists");
             }
@@ -97,7 +99,7 @@ namespace Dal
 
         public List<Product> ReadAll(Func<Product, bool>? filter = null)
         {
-            if(filter == null)
+            if (filter == null)
                 return productsList;
             return productsList.Where(x => filter(x)).ToList();
         }

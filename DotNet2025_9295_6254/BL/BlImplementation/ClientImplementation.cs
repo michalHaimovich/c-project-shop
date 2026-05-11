@@ -103,24 +103,15 @@ namespace BlImplementation
             throw new NotImplementedException();
         }
 
-        IEnumerable<Client> GetAll()
-        {
-            try
-            {
-                var dalCustomers = _dal.Customer.ReadAll();
-                return dalCustomers.Select(c => c.convert()).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new BO.BlInvalidInputException($"Failed to get all clients: {ex.Message}", ex);
-            }
-        }
+     
 
-        IEnumerable<Client> GetAll(Func<Client, bool> filter)
+        IEnumerable<Client> GetAll(Func<Client, bool> filter = null)
         {
             try
             {
                 var dalCustomers = _dal.Customer.ReadAll();
+                if (filter == null)
+                    return dalCustomers.Select(c=>c.convert());
                 var boClients = dalCustomers.Select(c => c.convert());
                 return boClients.Where(filter).ToList();
             }

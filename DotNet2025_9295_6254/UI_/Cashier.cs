@@ -16,13 +16,16 @@ namespace UI_
         public Cashier()
         {
             InitializeComponent();
+            panelDetails.Visible = false;
+            panelOrder.Visible = false;
+
         }
 
         private void Cashier_Load(object sender, EventArgs e)
         {
             try
             {
-                var products = bl.IProduct.GetAll(null);
+                var products = bl.IProduct.GetAll();
                 comboProducts.DataSource = products.ToList();
                 comboProducts.DisplayMember = "Name";
                 comboProducts.ValueMember = "Id";
@@ -31,8 +34,6 @@ namespace UI_
             {
                 MessageBox.Show($"Failed to load products: {ex.Message}");
             }
-            // ensure order-related buttons reflect current state
-            UpdateOrderButtons();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -82,6 +83,7 @@ namespace UI_
                 lblDetailName.Text = $"Name: {product.Name}";
                 lblDetailUnit.Text = $"Unit price: {product.Price}";
                 lblDetailQty.Text = $"Quantity: {qty}";
+
 
                 var pio = new BO.ProductInOrder { ProductId = product.Id, Name = product.Name, BasePrice = product.Price, Quantity_in_order = qty };
                 bool isPreferred = currentClient?.IsClubMember ?? false;
@@ -142,7 +144,6 @@ namespace UI_
             {
                 dgvOrder.DataSource = null;
                 lblTotal.Text = "Total: 0";
-                UpdateOrderButtons();
                 return;
             }
 
@@ -158,7 +159,6 @@ namespace UI_
             dgvOrder.DataSource = null;
             dgvOrder.DataSource = list;
             lblTotal.Text = $"Total: {currentOrder.FinalPrice} ";
-            UpdateOrderButtons();
         }
 
         private void buttonShowSales_Click(object sender, EventArgs e)
@@ -208,7 +208,6 @@ namespace UI_
                 Cashier_Load(null, null);
                 currentOrder = null;
                 RefreshOrderGrid();
-                UpdateOrderButtons();
             }
             catch (Exception ex)
             {
@@ -246,8 +245,10 @@ namespace UI_
                     var c = bl.IClient.Get(id);
                     currentClient = c;
                     currentOrder = new BO.Order { IsPreferredClient = c.IsClubMember };
+                    panelDetails.Visible = true;
+                    panelOrder.Visible = true;
+                    panelOpen.Visible = false;
                     RefreshOrderGrid();
-                    UpdateOrderButtons();
                     MessageBox.Show($"Client loaded: {c.Name}. New order started.");
                     return;
                 }
@@ -269,8 +270,10 @@ namespace UI_
                     {
                         currentClient = form.CreatedClient;
                         currentOrder = new BO.Order { IsPreferredClient = currentClient.IsClubMember };
+                        panelDetails.Visible = true;
+                        panelOrder.Visible = true;
+                        panelOpen.Visible = false;
                         RefreshOrderGrid();
-                        UpdateOrderButtons();
                         MessageBox.Show($"New client created and order started for ID {currentClient.Id}.");
                     }
                 }
@@ -283,8 +286,10 @@ namespace UI_
             {
                 currentClient = null;
                 currentOrder = new BO.Order { IsPreferredClient = false };
+                panelDetails.Visible = true;
+                panelOrder.Visible = true;
+                panelOpen.Visible = false;
                 RefreshOrderGrid();
-                UpdateOrderButtons();
                 MessageBox.Show("Guest order started.");
             }
         }
@@ -296,23 +301,17 @@ namespace UI_
 
         private void lblDetailUnit_Click(object sender, EventArgs e)
         {
-            // intentionally empty - label click handler placeholder
         }
 
-        private void UpdateOrderButtons()
+
+        private void lblTotal_Click(object sender, EventArgs e)
         {
-            bool hasOrder = currentOrder != null;
-            try
-            {
-                addProductButton.Enabled = hasOrder;
-                btnDoOrder.Enabled = hasOrder;
-            }
-            catch { }
+
         }
 
-        //private void lblDetailUnit_Click(object sender, EventArgs e)
-        //{
+        private void panelOpen_Paint(object sender, PaintEventArgs e)
+        {
 
-        //}
+        }
     }
 }

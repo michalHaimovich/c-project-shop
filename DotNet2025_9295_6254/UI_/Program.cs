@@ -11,8 +11,8 @@ namespace UI_
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            // Start the application with the Manager form as requested
-            Application.Run(new Cashier());
+            // Start the application with the Login form
+            Application.Run(new Login());
         }
     }
 }

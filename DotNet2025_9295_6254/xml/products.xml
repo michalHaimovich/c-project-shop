@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Product>
-    <id>1010</id>
-    <category>PERSONAL_CARE</category>
-    <product_name>phone</product_name>
-    <price>700</price>
-    <amount_in_stock>50</amount_in_stock>
-  </Product>
-  <Product>
     <id>1011</id>
     <category>ENTERTAINMENT</category>
     <product_name>Headphones</product_name>
@@ -139,5 +132,12 @@
     <product_name>mixer</product_name>
     <price>1000</price>
     <amount_in_stock>38</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1010</id>
+    <category>PERSONAL_CARE</category>
+    <product_name>phone</product_name>
+    <price>700</price>
+    <amount_in_stock>49</amount_in_stock>
   </Product>
 </ArrayOfProduct>

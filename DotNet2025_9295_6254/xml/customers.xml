@@ -168,4 +168,11 @@
     <customer_phon>1234</customer_phon>
     <isClubMember>false</isClubMember>
   </Customer>
+  <Customer>
+    <id>1234</id>
+    <customer_name>new</customer_name>
+    <customer_adress>abc</customer_adress>
+    <customer_phon>0987654321</customer_phon>
+    <isClubMember>false</isClubMember>
+  </Customer>
 </ArrayOfCustomer>

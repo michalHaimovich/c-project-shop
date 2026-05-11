@@ -177,7 +177,7 @@
             panelDetails.Controls.Add(lblDetailSalesCount);
             panelDetails.Location = new Point(824, 124);
             panelDetails.Name = "panelDetails";
-            panelDetails.Size = new Size(260, 200);
+            panelDetails.Size = new Size(231, 168);
             panelDetails.TabIndex = 11;
             // 
             // lblDetailName
@@ -207,7 +207,7 @@
             // 
             // lblDetailSalesCount
             // 
-            lblDetailSalesCount.Location = new Point(10, 130);
+            lblDetailSalesCount.Location = new Point(10, 103);
             lblDetailSalesCount.Name = "lblDetailSalesCount";
             lblDetailSalesCount.Size = new Size(240, 20);
             lblDetailSalesCount.TabIndex = 4;

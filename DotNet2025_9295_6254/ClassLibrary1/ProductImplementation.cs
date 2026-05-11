@@ -9,6 +9,9 @@ using System.Xml.Serialization;
 
 namespace Dal
 {
+    /// <summary>
+    /// //////////////////////////////////////////////////////////////
+    /// </summary>
     internal class ProductImplementation : IProduct
     {
 
@@ -112,4 +115,5 @@ namespace Dal
             SaveToFile();
         }
     }
+    /////////////////////////////////////////////////////////
 }

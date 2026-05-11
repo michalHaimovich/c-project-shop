@@ -36,13 +36,6 @@
     <amount_in_stock>10</amount_in_stock>
   </Product>
   <Product>
-    <id>1009</id>
-    <category>PERSONAL_CARE</category>
-    <product_name>Laptop</product_name>
-    <price>1500</price>
-    <amount_in_stock>300</amount_in_stock>
-  </Product>
-  <Product>
     <id>1020</id>
     <category>PERSONAL_CARE</category>
     <product_name>phone</product_name>
@@ -139,5 +132,12 @@
     <product_name>phone</product_name>
     <price>700</price>
     <amount_in_stock>49</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1009</id>
+    <category>PERSONAL_CARE</category>
+    <product_name>Laptop</product_name>
+    <price>1500</price>
+    <amount_in_stock>264</amount_in_stock>
   </Product>
 </ArrayOfProduct>

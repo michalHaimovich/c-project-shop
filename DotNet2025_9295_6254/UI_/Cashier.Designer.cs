@@ -34,7 +34,6 @@
             lblDetailName = new Label();
             lblDetailUnit = new Label();
             lblDetailQty = new Label();
-            lblDetailFinal = new Label();
             lblDetailSalesCount = new Label();
             panelOrder = new Panel();
             panelOpen = new Panel();
@@ -50,7 +49,7 @@
             label1.AutoSize = true;
             label1.Location = new Point(552, 9);
             label1.Name = "label1";
-            label1.Size = new Size(56, 25);
+            label1.Size = new Size(37, 15);
             label1.TabIndex = 0;
             label1.Text = "קופאי";
             label1.Click += label1_Click;
@@ -70,7 +69,7 @@
             label2.AutoSize = true;
             label2.Location = new Point(330, 0);
             label2.Name = "label2";
-            label2.Size = new Size(154, 25);
+            label2.Size = new Size(101, 15);
             label2.TabIndex = 2;
             label2.Text = "enter customer ID";
             // 
@@ -78,14 +77,14 @@
             // 
             customerId.Location = new Point(339, 28);
             customerId.Name = "customerId";
-            customerId.Size = new Size(121, 31);
+            customerId.Size = new Size(121, 23);
             customerId.TabIndex = 3;
             // 
             // comboProducts
             // 
             comboProducts.Location = new Point(99, 19);
             comboProducts.Name = "comboProducts";
-            comboProducts.Size = new Size(241, 33);
+            comboProducts.Size = new Size(241, 23);
             comboProducts.TabIndex = 4;
             comboProducts.SelectedIndexChanged += comboProducts_SelectedIndexChanged;
             // 
@@ -93,15 +92,16 @@
             // 
             productIdTextBox.Location = new Point(372, 21);
             productIdTextBox.Name = "productIdTextBox";
-            productIdTextBox.Size = new Size(81, 31);
+            productIdTextBox.Size = new Size(81, 23);
             productIdTextBox.TabIndex = 5;
             // 
             // quantityUpDown
             // 
             quantityUpDown.Location = new Point(480, 21);
-            quantityUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            quantityUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            quantityUpDown.Minimum = new decimal(new int[] { 1000, 0, 0, int.MinValue });
             quantityUpDown.Name = "quantityUpDown";
-            quantityUpDown.Size = new Size(48, 31);
+            quantityUpDown.Size = new Size(48, 23);
             quantityUpDown.TabIndex = 6;
             quantityUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
             quantityUpDown.ValueChanged += quantityUpDown_ValueChanged;
@@ -174,7 +174,6 @@
             panelDetails.Controls.Add(lblDetailName);
             panelDetails.Controls.Add(lblDetailUnit);
             panelDetails.Controls.Add(lblDetailQty);
-            panelDetails.Controls.Add(lblDetailFinal);
             panelDetails.Controls.Add(lblDetailSalesCount);
             panelDetails.Location = new Point(824, 124);
             panelDetails.Name = "panelDetails";
@@ -205,14 +204,6 @@
             lblDetailQty.Size = new Size(240, 20);
             lblDetailQty.TabIndex = 2;
             lblDetailQty.Text = "Quantity:";
-            // 
-            // lblDetailFinal
-            // 
-            lblDetailFinal.Location = new Point(10, 100);
-            lblDetailFinal.Name = "lblDetailFinal";
-            lblDetailFinal.Size = new Size(240, 20);
-            lblDetailFinal.TabIndex = 3;
-            lblDetailFinal.Text = "Final price:";
             // 
             // lblDetailSalesCount
             // 
@@ -290,7 +281,6 @@
         private System.Windows.Forms.Label lblDetailName;
         private System.Windows.Forms.Label lblDetailUnit;
         private System.Windows.Forms.Label lblDetailQty;
-        private System.Windows.Forms.Label lblDetailFinal;
         private System.Windows.Forms.Label lblDetailSalesCount;
         private Panel panelOrder;
         private Panel panelOpen;

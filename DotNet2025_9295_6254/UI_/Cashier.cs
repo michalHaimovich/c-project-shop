@@ -25,6 +25,9 @@ namespace UI_
         {
             try
             {
+                panelDetails.Visible = false;
+                panelOrder.Visible = false;
+                panelOpen.Visible = true;
                 var products = bl.IProduct.GetAll();
                 comboProducts.DataSource = products.ToList();
                 comboProducts.DisplayMember = "Name";
@@ -63,7 +66,6 @@ namespace UI_
                     lblDetailName.Text = "Name:";
                     lblDetailUnit.Text = "Unit price:";
                     lblDetailQty.Text = "Quantity:";
-                    lblDetailFinal.Text = "Final price:";
                     lblDetailSalesCount.Text = "Active sales: 0";
                     return;
                 }
@@ -74,7 +76,6 @@ namespace UI_
                     lblDetailName.Text = "Name: (not found)";
                     lblDetailUnit.Text = "Unit price:";
                     lblDetailQty.Text = "Quantity:";
-                    lblDetailFinal.Text = "Final price:";
                     lblDetailSalesCount.Text = "Active sales: 0";
                     return;
                 }
@@ -88,9 +89,6 @@ namespace UI_
                 var pio = new BO.ProductInOrder { ProductId = product.Id, Name = product.Name, BasePrice = product.Price, Quantity_in_order = qty };
                 bool isPreferred = currentClient?.IsClubMember ?? false;
                 bl.IOrder.SearchSaleForProduct(pio, isPreferred);
-                bl.IOrder.CalcTotalPriceForProduct(pio);
-
-                lblDetailFinal.Text = $"Final price: {pio.FinalPrice_in_total}";
                 lblDetailSalesCount.Text = $"Active sales: {(pio.Sales?.Count ?? 0)}";
             }
             catch (Exception ex)
@@ -101,12 +99,6 @@ namespace UI_
 
         private void addProductButton_Click(object sender, EventArgs e)
         {
-            if (currentOrder == null)
-            {
-                MessageBox.Show("Open an order first by entering a client ID and clicking 'open order'.");
-                return;
-            }
-
             try
             {
                 int productId;
@@ -140,12 +132,7 @@ namespace UI_
 
         private void RefreshOrderGrid()
         {
-            if (currentOrder == null)
-            {
-                dgvOrder.DataSource = null;
-                lblTotal.Text = "Total: 0";
-                return;
-            }
+        
 
             var list = currentOrder.Products.Select(p => new
             {
@@ -165,22 +152,11 @@ namespace UI_
         {
             try
             {
-                if (!int.TryParse(productIdTextBox.Text, out var productId) && comboProducts.SelectedItem is BO.Product p)
-                    productId = p.Id;
-
-                var product = bl.IProduct.Get(productId);
-                if (product == null)
-                {
-                    MessageBox.Show("Product not found.");
-                    return;
-                }
-
-                var pio = new BO.ProductInOrder { ProductId = product.Id, Name = product.Name, BasePrice = product.Price, Quantity_in_order = (int)quantityUpDown.Value };
-                bool isPreferred = currentClient?.IsClubMember ?? false;
-                bl.IOrder.SearchSaleForProduct(pio, isPreferred);
-
+                List<SaleInProduct> list = new List<SaleInProduct>();
+                currentOrder.Products.ForEach(p=>p.Sales.ForEach(s=>list.Add(s)));
+                
                 using var form = new SalesListForm();
-                form.SetSales(pio.Sales ?? new System.Collections.Generic.List<BO.SaleInProduct>(), product.Name);
+                form.SetSales(list ?? new System.Collections.Generic.List<BO.SaleInProduct>());
                 form.ShowDialog();
             }
             catch (FormatException)
@@ -195,19 +171,13 @@ namespace UI_
 
         private void btnDoOrder_Click(object sender, EventArgs e)
         {
-            if (currentOrder == null)
-            {
-                MessageBox.Show("No active order.");
-                return;
-            }
+           
             try
             {
                 bl.IOrder.DoOrder(currentOrder);
                 MessageBox.Show("Order completed.");
-                // refresh products (stock changed) and clear order
                 Cashier_Load(null, null);
                 currentOrder = null;
-                RefreshOrderGrid();
             }
             catch (Exception ex)
             {
@@ -259,7 +229,7 @@ namespace UI_
                 return;
             }
 
-            var dr = MessageBox.Show($"Client with ID '{id}' was not found.\nYes = create new client and start order, No = start guest order, Cancel = do nothing.", "Client not found", MessageBoxButtons.YesNoCancel);
+            var dr = MessageBox.Show($"Client with ID '{id}' was not found.\nYes = create new client and start order, No = try again", "Client not found", MessageBoxButtons.YesNoCancel);
             if (dr == DialogResult.Yes)
             {
                 try
@@ -281,16 +251,6 @@ namespace UI_
                 {
                     MessageBox.Show($"Failed to create client: {ex2.Message}");
                 }
-            }
-            else if (dr == DialogResult.No)
-            {
-                currentClient = null;
-                currentOrder = new BO.Order { IsPreferredClient = false };
-                panelDetails.Visible = true;
-                panelOrder.Visible = true;
-                panelOpen.Visible = false;
-                RefreshOrderGrid();
-                MessageBox.Show("Guest order started.");
             }
         }
 

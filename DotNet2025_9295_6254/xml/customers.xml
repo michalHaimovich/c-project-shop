@@ -175,4 +175,11 @@
     <customer_phon>0987654321</customer_phon>
     <isClubMember>false</isClubMember>
   </Customer>
+  <Customer>
+    <id>4321</id>
+    <customer_name>add</customer_name>
+    <customer_adress>kjjk</customer_adress>
+    <customer_phon>5454</customer_phon>
+    <isClubMember>true</isClubMember>
+  </Customer>
 </ArrayOfCustomer>

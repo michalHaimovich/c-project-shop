@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Product>
-    <id>1011</id>
-    <category>ENTERTAINMENT</category>
-    <product_name>Headphones</product_name>
-    <price>150</price>
-    <amount_in_stock>100</amount_in_stock>
-  </Product>
-  <Product>
     <id>1012</id>
     <category>PERSONAL_CARE</category>
     <product_name>Smartwatch</product_name>
@@ -22,67 +15,11 @@
     <amount_in_stock>40</amount_in_stock>
   </Product>
   <Product>
-    <id>1015</id>
-    <category>PERSONAL_CARE</category>
-    <product_name>Keyboard</product_name>
-    <price>75</price>
-    <amount_in_stock>80</amount_in_stock>
-  </Product>
-  <Product>
-    <id>1017</id>
-    <category>PERSONAL_CARE</category>
-    <product_name>Printer</product_name>
-    <price>200</price>
-    <amount_in_stock>10</amount_in_stock>
-  </Product>
-  <Product>
-    <id>1020</id>
-    <category>PERSONAL_CARE</category>
-    <product_name>phone</product_name>
-    <price>700</price>
-    <amount_in_stock>50</amount_in_stock>
-  </Product>
-  <Product>
-    <id>1021</id>
-    <category>ENTERTAINMENT</category>
-    <product_name>Headphones</product_name>
-    <price>150</price>
-    <amount_in_stock>100</amount_in_stock>
-  </Product>
-  <Product>
-    <id>1022</id>
-    <category>PERSONAL_CARE</category>
-    <product_name>Smartwatch</product_name>
-    <price>300</price>
-    <amount_in_stock>30</amount_in_stock>
-  </Product>
-  <Product>
-    <id>1023</id>
-    <category>ENTERTAINMENT</category>
-    <product_name>Tablet</product_name>
-    <price>400</price>
-    <amount_in_stock>40</amount_in_stock>
-  </Product>
-  <Product>
-    <id>1024</id>
-    <category>PERSONAL_CARE</category>
-    <product_name>Monitor</product_name>
-    <price>250</price>
-    <amount_in_stock>15</amount_in_stock>
-  </Product>
-  <Product>
     <id>1025</id>
     <category>PERSONAL_CARE</category>
     <product_name>Keyboard</product_name>
     <price>75</price>
     <amount_in_stock>80</amount_in_stock>
-  </Product>
-  <Product>
-    <id>1026</id>
-    <category>PERSONAL_CARE</category>
-    <product_name>Mouse</product_name>
-    <price>25</price>
-    <amount_in_stock>200</amount_in_stock>
   </Product>
   <Product>
     <id>1027</id>
@@ -106,20 +43,6 @@
     <amount_in_stock>14</amount_in_stock>
   </Product>
   <Product>
-    <id>1019</id>
-    <category>ENTERTAINMENT</category>
-    <product_name>Laptop</product_name>
-    <price>1500</price>
-    <amount_in_stock>198</amount_in_stock>
-  </Product>
-  <Product>
-    <id>1016</id>
-    <category>PERSONAL_CARE</category>
-    <product_name>Mouse</product_name>
-    <price>25</price>
-    <amount_in_stock>198</amount_in_stock>
-  </Product>
-  <Product>
     <id>1029</id>
     <category>KITCHEN</category>
     <product_name>mixer</product_name>
@@ -139,5 +62,12 @@
     <product_name>Laptop</product_name>
     <price>1500</price>
     <amount_in_stock>264</amount_in_stock>
+  </Product>
+  <Product>
+    <id>1011</id>
+    <category>ENTERTAINMENT</category>
+    <product_name>headphones</product_name>
+    <price>130</price>
+    <amount_in_stock>0</amount_in_stock>
   </Product>
 </ArrayOfProduct>

@@ -12,11 +12,11 @@ namespace UI_
             InitializeComponent();
         }
 
-        public void SetSales(System.Collections.Generic.IEnumerable<BO.SaleInProduct> sales, string productName)
+        public void SetSales(System.Collections.Generic.IEnumerable<BO.SaleInProduct> sales)
         {
-            var list = sales.Select(s => new { Product = productName, Amount = s.Amount_to_sale, Price = s.Price_per_one, SaleId = s.SaleId }).ToList();
+           
             dgvSales.DataSource = null;
-            dgvSales.DataSource = list;
+            dgvSales.DataSource = sales;
             // hide SaleId column (kept for reference)
             if (dgvSales.Columns.Contains("SaleId"))
                 dgvSales.Columns["SaleId"].Visible = false;

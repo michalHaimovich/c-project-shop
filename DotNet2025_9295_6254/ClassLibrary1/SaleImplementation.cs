@@ -27,7 +27,12 @@ namespace Dal
 
         public Sale Read(int id)
         {
-            XElement sale = sales.Elements(ID).Where(x => x.Value == id.ToString()).FirstOrDefault().Parent;
+            XElement sale = sales.Elements(ID).Where(x => x.Value == id.ToString()).FirstOrDefault()!;
+            if (sale == null)
+            {
+                throw new DalDoesNotExistException("sale with id: " +id +" does not exists");
+            }
+            sale = sale.Parent!;
             Sale s = new Sale()
             {
                 id = int.Parse(sale.Element(ID).Value),
@@ -81,13 +86,15 @@ namespace Dal
                 new XElement(STARTDATE, sale.start_date),
                 new XElement(ENDDATE, sale.end_date)
             ));
-                sales.Save(fileName);
+            sales.Save(fileName);
             return id;
         }
 
         public void Delete(int id)
         {
-            sales.Elements(SALE).Where(x => x.Element(ID).Value == id.ToString()).FirstOrDefault()?.Remove();
+            if(sales.Elements(SALE).FirstOrDefault(x => x.Element(ID).Value == id.ToString()) == null)
+                throw new DalDoesNotExistException("sale with id: " + id + " does not exists");
+            sales.Elements(SALE).FirstOrDefault(x => x.Element(ID).Value == id.ToString())?.Remove();
             sales.Save(fileName);
         } 
 

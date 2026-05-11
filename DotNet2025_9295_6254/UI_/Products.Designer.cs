@@ -10,15 +10,15 @@ namespace UI_
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-     if (disposing && (components != null))
-         {
-    components.Dispose();
-        }
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
             base.Dispose(disposing);
- }
+        }
 
         #region Windows Form Designer generated code
 
@@ -547,10 +547,10 @@ namespace UI_
         #endregion
 
         private Button showProduct;
-  private Button deleteProduct;
+        private Button deleteProduct;
         private Button showAllProducts;
         private Button createProduct;
-     private Button updateProduct;
+        private Button updateProduct;
         private Panel panel1;
         private Label label1;
         private TextBox nameTextBox;
@@ -558,32 +558,32 @@ namespace UI_
         private Label label3;
         private TextBox priceTextBox;
         private TextBox stockTextBox;
-     private ComboBox categoryComboBox;
+        private ComboBox categoryComboBox;
         private Button confirmCreate;
-     private Label label2;
+        private Label label2;
         private Panel panelID;
         private TextBox idTextBox;
- private Button confirmAction;
+        private Button confirmAction;
         private Panel panelUpdate;
         private TextBox upNameTextBox;
-      private Label label5;
-     private Label label6;
-      private TextBox upPriceTextBox;
+        private Label label5;
+        private Label label6;
+        private TextBox upPriceTextBox;
         private Label label7;
         private TextBox upStockTextBox;
         private Label label8;
         private Button UpdateConfirm;
-  private TextBox upIdTextBox;
- private Panel panelDelete;
+        private TextBox upIdTextBox;
+        private Panel panelDelete;
         private Button DeleteConfirm;
         private TextBox idDeleteTextBox;
         private Panel panelShowAll;
         private DataGridView dataGridViewProducts;
         private TextBox filterTextBox;
         private Label labelFilter;
-   private Button closeShowAll;
-    private Label labelID;
-      private Button filterByCategory;
+        private Button closeShowAll;
+        private Label labelID;
+        private Button filterByCategory;
         private ComboBox categoryFilterComboBox;
         private Label label10;
         private ComboBox categoryComboBoxUpdate;

@@ -18,6 +18,7 @@ namespace BlImplementation
                 sale.product_id == productInOrder.ProductId &&
                 sale.start_date <= DateTime.Now && sale.end_date >= DateTime.Now &&
                 productInOrder.Quantity_in_order >= sale.amount_to_sale &&
+                sale.count_to_sale > 0 &&
                 (isClubMember ||  !sale.to_club ));
 
             productInOrder.Sales = relevantSales.OrderBy(sale => sale.amount_to_sale).Select(sale => sale.convert()).Select(s=> new SaleInProduct() { IsForAllClients = !s.to_club ,Price_per_one = s.cost_per_one, Amount_to_sale = s.amount_to_sale , SaleId = s.Id }).ToList();
@@ -169,7 +170,43 @@ namespace BlImplementation
 
                 // 3. שליחת האובייקט המעודכן חזרה ל-DAL כדי לשמור את השינוי
                 // ההנחה כאן היא שיש פונקציית Update ב-DAL שמקבלת את האובייקט ומעדכנת אותו
-                _dal.Product.Update(doProduct with { amount_in_stock = doProduct.amount_in_stock - productInOrder.Quantity_in_order });
+            // הפחתת ספירת השימושים במבצעים בהתאם לכמויות שהוחלו
+            if (productInOrder.Sales != null && productInOrder.Sales.Count > 0)
+            {
+                int remainingQuantityForSales = productInOrder.Quantity_in_order;
+                // Sales were stored ordered by Amount_to_sale in CalcTotalPriceForProduct
+                foreach (var appliedSale in productInOrder.Sales)
+                {
+                    if (remainingQuantityForSales < appliedSale.Amount_to_sale)
+                        continue;
+
+                    int timesUsed = remainingQuantityForSales / appliedSale.Amount_to_sale;
+                    if (timesUsed <= 0)
+                        continue;
+
+                    try
+                    {
+                        var doSale = _dal.Sale.Read(appliedSale.SaleId);
+                        if (doSale != null)
+                        {
+                            // reduce the available count (count_to_sale) by the number of times the sale was used
+                            int newCount = doSale.count_to_sale - timesUsed;
+                            if (newCount < 0) newCount = 0;
+                            _dal.Sale.Update(doSale with { count_to_sale = newCount });
+                        }
+                    }
+                    catch
+                    {
+                        // ignore DAL errors for sale update to not block order completion
+                    }
+
+                    remainingQuantityForSales -= timesUsed * appliedSale.Amount_to_sale;
+                    if (remainingQuantityForSales <= 0)
+                        break;
+                }
+            }
+
+            _dal.Product.Update(doProduct with { amount_in_stock = doProduct.amount_in_stock - productInOrder.Quantity_in_order });
             }
 
         }
